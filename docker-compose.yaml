@@ -1,0 +1,37 @@
+services:
+  musicapi:
+    image: yorften/musicapi
+    ports:
+      - "8085:8085"  
+    environment:
+      SPRING_PROFILES_ACTIVE: prod 
+      SPRING_JWT_TOKEN: ${JWT_TOKEN}
+      SPRING_JWT_EXPIRATION: ${JWT_EXPIRATION}
+      SPRING_MONGODB_URI: ${MONGODB_URI}
+    depends_on:
+      - db
+    networks:
+      - musicapi-network
+
+  db:
+    image: mongodb:latest
+    container_name: mongodb-container
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - musicapi-network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    command:
+      --bind_ip_all # Allows MongoDB to bind to all IPs inside the network
+
+volumes:
+  mongo-data:
+    driver: local
+
+networks:
+  musicapi-network:
+    driver: bridge

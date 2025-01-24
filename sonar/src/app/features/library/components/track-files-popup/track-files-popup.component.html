@@ -1,0 +1,55 @@
+<div class="fixed w-full h-full top-0 left-0 items-center flex justify-center z-50 track-popup-background">
+    <div class="bg-white w-11/12 md:w-7/12 h-fit shadow-xl flex flex-col items-center overflow-hidden rounded-md md:h-fit track-container">
+        <div class="w-full h-6">
+            <div class="flex items-center justify-end h-full rounded-tr-md rounded-tl-md">
+                <p (click)="closePopup()" class="text-xl text-gray-700 font-bold cursor-pointer text-center mr-1">&times;</p>
+            </div>
+        </div>
+        <div
+            class="flex flex-col justify-between gap-5 px-[5%] h-[75vh] w-[96%] sm:w-[98%] md:w-[97%] lg:w-[98.5%] mx-auto overflow-x-hidden overflow-y-auto mt-2 py-4">
+            <p class="text-xl font-medium">Track audio files</p>
+            <div *ngIf="status$ | async as status" class="flex-1 min-h-0 overflow-y-auto md:px-[4%] w-full">
+                <div *ngIf="status === 'loading'" class="loading-indicator">
+                    <div
+                        class="group flex items-center justify-center gap-1 md:gap-2 border-b-0 shadow-sm border bg-white border-b-gray-400 rounded-lg hover:bg-gray-secondary h-[44px] w-full pl-2 md:px-4 animate-pulse">
+                        <p>Loading</p>
+                    </div>
+                </div>
+                <div *ngIf="status === 'success'" class="loading-indicator">
+                    <div *ngFor="let file of audioFiles$ | async">
+                        <app-mini-player [track]="track" [file]="file" />
+                    </div>
+                </div>
+            </div>
+            <form [formGroup]="trackAudioForm" (ngSubmit)="onSubmit()"
+                class="flex flex-col items-center justify-between gap-5 px-[5%] w-[96%] sm:w-[98%] md:w-[97%] lg:w-[98.5%] mx-auto overflow-x-hidden overflow-y-auto mt-2 py-10">
+                <div class="flex flex-col items-center gap-4 w-full">
+                    <div class="flex flex-col mb-3 w-full">
+                        <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+                            <p class="text-xs">Track file</p>
+                            <input (input)="onFileChange($event, 'file')" id="file" type="file" formControlName="file"
+                                [class.is-invalid]="isFieldInvalid('file')" class="placeholder:font-light placeholder:text-xs focus:outline-none"
+                                placeholder="Track file" autocomplete="off">
+                        </div>
+                        <div *ngIf="isFieldInvalid('file')" class="text-red-600 text-xs pl-3">
+                            <span *ngIf="trackAudioForm.get('file')?.errors?.['required']">
+                                Track file is required
+                            </span>
+                            <span *ngIf="trackAudioForm.get('file')?.errors?.['invalidFileType']">
+                                Only MP3, WAV, and OGG files are allowed
+                            </span>
+                            <span *ngIf="trackAudioForm.get('file')?.errors?.['fileTooLarge']">
+                                File size must be less than 15MB
+                            </span>
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full cursor-pointer rounded-md shadow-sm text-white font-medium bg-black py-3 px-2 transition-all duration-200 hover:bg-gray-950 hover:shadow-md">
+                        Upload Audio
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,84 @@
+<div class="absolute top-[0] left-0 w-[60px] hover:w-80 md:w-80 bg-gray-secondary text-black h-full transition-all duration-300 border-r border-gray-200 p-[6px] z-20">
+    <ul class="group overflow-hidden flex flex-col py-1 space-y-1 h-full">
+        <li>
+            <div class="relative flex flex-row items-center justify-center h-11 focus:outline-none text-gray-700 pr-2 select-none">
+                <span class="inline-flex justify-center items-center ml-[15px] md:ml-0">
+                    <svg class="w-7 h-7" id="el4u3s8MGOE1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        viewBox="0 0 300 300" shape-rendering="geometricPrecision" text-rendering="geometricPrecision"
+                        project-id="befaf5b520ec43b1b82eaec52678685a" export-id="c123484da6994fe6a63f76cc186fe75b" cached="false">
+                        <ellipse rx="31.170593" ry="40.426483" transform="matrix(4.812228 0 0 3.710439 150 149.999999)" fill="#ff8801" stroke-width="0" />
+                        <text dx="0" dy="0" font-family="&quot;el4u3s8MGOE1:::Open Sans&quot;" font-size="15" font-weight="400"
+                            transform="matrix(15.070902 0 0 14.075503 20.577296 237.255207)" fill="#fff" stroke-width="0">
+                            <tspan y="0" font-weight="400" stroke-width="0">
+                                <![CDATA[ Sn ]]>
+                            </tspan>
+                        </text>
+                    </svg>
+                </span>
+                <span class="ml-2 text-lg tracking-wide truncate">Sonar</span>
+            </div>
+        </li>
+
+        <li class="pb-3 group-hover:visible invisible md:visible">
+            <div class='max-w-md mx-auto px-4'>
+                <div
+                    class="relative flex items-center w-full h-0 group-hover:h-9 md:h-9 rounded-[4px] bg-white overflow-hidden transition-all duration-300 border-b-2 border-gray-400 focus-within:border-red-custom">
+
+                    <div class="grid place-items-center h-full w-16 md:w-12 text-gray-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="pl-[2px] h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <input (input)="searchTracks($event)" class="peer h-full w-full outline-none text-sm text-gray-700 pr-2" type="text" id="search" placeholder="Search something.." />
+                </div>
+            </div>
+        </li>
+
+        <li>
+            <a routerLink="/" class="relative flex flex-row items-center h-9 focus:outline-none hover:bg-gray-selected text-gray-700 rounded-md pr-6">
+                <span class="inline-flex justify-center items-center ml-4">
+                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                        </path>
+                    </svg>
+                </span>
+                <span class="ml-2 text-sm tracking-wide truncate">Home</span>
+            </a>
+        </li>
+
+        <li>
+            <a routerLink="/library" class="relative flex flex-row items-center h-9 focus:outline-none hover:bg-gray-selected text-gray-700 rounded-md pr-6">
+                <span class="inline-flex justify-center items-center ml-4">
+                    <svg class="w-5 h-5 text-gray-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                        <path
+                            d="M12 19.5C12 20.8807 10.8807 22 9.5 22C8.11929 22 7 20.8807 7 19.5C7 18.1193 8.11929 17 9.5 17C10.8807 17 12 18.1193 12 19.5Z"
+                            stroke="#1C274C" stroke-width="1.5" />
+                        <path
+                            d="M22 17.5C22 18.8807 20.8807 20 19.5 20C18.1193 20 17 18.8807 17 17.5C17 16.1193 18.1193 15 19.5 15C20.8807 15 22 16.1193 22 17.5Z"
+                            stroke="#1C274C" stroke-width="1.5" />
+                        <path d="M22 8L12 12" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                        <path
+                            d="M14.4556 5.15803L14.7452 5.84987L14.4556 5.15803ZM16.4556 4.32094L16.1661 3.62909L16.4556 4.32094ZM21.1081 3.34059L20.6925 3.96496L20.6925 3.96496L21.1081 3.34059ZM21.25 12.0004C21.25 12.4146 21.5858 12.7504 22 12.7504C22.4142 12.7504 22.75 12.4146 22.75 12.0004H21.25ZM12.75 19.0004V8.84787H11.25V19.0004H12.75ZM14.7452 5.84987L16.7452 5.01278L16.1661 3.62909L14.1661 4.46618L14.7452 5.84987ZM22.75 8.01078C22.75 6.67666 22.752 5.59091 22.6304 4.76937C22.5067 3.93328 22.2308 3.18689 21.5236 2.71622L20.6925 3.96496C20.8772 4.08787 21.0473 4.31771 21.1466 4.98889C21.248 5.67462 21.25 6.62717 21.25 8.01078H22.75ZM16.7452 5.01278C18.0215 4.47858 18.901 4.11263 19.5727 3.94145C20.2302 3.77391 20.5079 3.84204 20.6925 3.96496L21.5236 2.71622C20.8164 2.24554 20.0213 2.2792 19.2023 2.48791C18.3975 2.69298 17.3967 3.114 16.1661 3.62909L16.7452 5.01278ZM12.75 8.84787C12.75 8.18634 12.751 7.74991 12.7875 7.41416C12.822 7.09662 12.8823 6.94006 12.9594 6.8243L11.7106 5.99325C11.4527 6.38089 11.3455 6.79864 11.2963 7.25218C11.249 7.68752 11.25 8.21893 11.25 8.84787H12.75ZM14.1661 4.46618C13.5859 4.70901 13.0953 4.91324 12.712 5.12494C12.3126 5.34549 11.9686 5.60562 11.7106 5.99325L12.9594 6.8243C13.0364 6.70855 13.1575 6.59242 13.4371 6.438C13.7328 6.27473 14.135 6.10528 14.7452 5.84987L14.1661 4.46618ZM22.75 12.0004V8.01078H21.25V12.0004H22.75Z"
+                            fill="#1C274C" />
+                        <path d="M7 11V6.5V2" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                        <circle cx="4.5" cy="10.5" r="2.5" stroke="#1C274C" stroke-width="1.5" />
+                        <path d="M10 5C8.75736 5 7 4.07107 7 2" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                </span>
+                <span class="ml-2 text-sm tracking-wide truncate">Music library</span>
+            </a>
+        </li>
+
+
+        <li class="py-2 hidden md:block ">
+            <hr class="border-[1.2px] rounded-full">
+        </li>
+
+
+        <li class="flex-1 min-h-0">
+            <app-playlist-menu />
+        </li>
+
+    </ul>
+</div>

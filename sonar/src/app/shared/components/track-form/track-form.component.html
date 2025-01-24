@@ -1,0 +1,109 @@
+<div class="fixed w-full h-full top-0 left-0 items-center flex justify-center z-50 task-popup-background">
+    <div class="bg-white w-11/12 md:w-7/12 h-fit shadow-xl flex flex-col items-center overflow-hidden rounded-md md:h-fit task-form-container">
+        <div class="w-full h-6">
+            <div class="flex justify-end h-full rounded-tr-md rounded-tl-md">
+                <p (click)="closeForm()" class="text-xl text-gray-700 font-bold cursor-pointer text-center mr-1">&times;</p>
+            </div>
+        </div>
+        <form [formGroup]="trackForm" (ngSubmit)="onSubmit()"
+            class="flex flex-col items-center justify-between gap-5 px-[5%] w-[96%] sm:w-[98%] md:w-[97%] lg:w-[98.5%] mx-auto overflow-x-hidden overflow-y-auto mt-2 py-10" [ngClass]="editedTrack ? 'h-[60vh]' : 'h-[75vh]'">
+            <div class="flex flex-col items-center gap-4 w-full">
+                <div class="flex flex-col mb-3 w-full">
+                    <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+                        <p class="text-xs">Track name</p>
+                        <input id="name" type="text" formControlName="name" [class.is-invalid]="isFieldInvalid('name')"
+                            class="placeholder:font-light placeholder:text-xs focus:outline-none" placeholder="Track name" autocomplete="off">
+                    </div>
+                    <div *ngIf="isFieldInvalid('name')" class="text-red-600 text-xs pl-3">
+                        <span *ngIf="trackForm.get('name')?.errors?.['required']">
+                            Track name is required
+                        </span>
+                        <span *ngIf="trackForm.get('name')?.errors?.['minlength']">
+                            Track name should be atleast 3 characters
+                        </span>
+                        <span *ngIf="trackForm.get('name')?.errors?.['maxlength']">
+                            Track name should not pass 50 characters
+                        </span>
+                    </div>
+                </div>
+                <div class="flex flex-col mb-3 w-full">
+                    <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+                        <p class="text-xs">Track author</p>
+                        <input id="author" type="text" formControlName="author" [class.is-invalid]="isFieldInvalid('author')"
+                            class="placeholder:font-light placeholder:text-xs focus:outline-none" placeholder="Track author" autocomplete="off">
+                    </div>
+                    <div *ngIf="isFieldInvalid('author')" class="text-red-600 text-xs pl-3">
+                        <span *ngIf="trackForm.get('author')?.errors?.['required']">
+                            Track author is required
+                        </span>
+                        <span *ngIf="trackForm.get('author')?.errors?.['minlength']">
+                            Track author should be atleast 3 characters
+                        </span>
+                        <span *ngIf="trackForm.get('author')?.errors?.['maxlength']">
+                            Track author should not pass 50 characters
+                        </span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col mb-3 w-full">
+                    <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+                        <p class="text-xs">Category</p>
+                        <select id="category" formControlName="category" [class.is-invalid]="isFieldInvalid('category')" class="appearance-none p-1">
+                            <option value="" selected disabled hidden>Select a category</option>
+                            <option *ngFor="let category of categories" [value]="category">
+                                {{ category }}
+                            </option>
+                        </select>
+                    </div>
+                    <div *ngIf="isFieldInvalid('category')" class="text-red-600 text-xs pl-3">
+                        <span *ngIf="trackForm.get('category')?.errors?.['required']">
+                            Category is required
+                        </span>
+                    </div>
+                </div>
+
+                <div *ngIf="!editedTrack" class="flex flex-col mb-3 w-full">
+                    <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+                        <p class="text-xs">Track file</p>
+                        <input (input)="onFileChange($event, 'file')" id="file" type="file" formControlName="file"
+                            [class.is-invalid]="isFieldInvalid('file')" class="placeholder:font-light placeholder:text-xs focus:outline-none"
+                            placeholder="Track file" autocomplete="off">
+                    </div>
+                    <div *ngIf="isFieldInvalid('file')" class="text-red-600 text-xs pl-3">
+                        <span *ngIf="trackForm.get('file')?.errors?.['required']">
+                            Track file is required
+                        </span>
+                        <span *ngIf="trackForm.get('file')?.errors?.['invalidFileType']">
+                            Only MP3, WAV, and OGG files are allowed
+                        </span>
+                        <span *ngIf="trackForm.get('file')?.errors?.['fileTooLarge']">
+                            File size must be less than 15MB
+                        </span>
+                    </div>
+                </div>
+
+                <div *ngIf="!editedTrack" class="flex flex-col mb-3 w-full">
+                    <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+                        <p class="text-xs">Track cover</p>
+                        <input (input)="onFileChange($event, 'cover')" id="cover" type="file" formControlName="cover"
+                            [class.is-invalid]="isFieldInvalid('cover')" class="placeholder:font-light placeholder:text-xs focus:outline-none"
+                            placeholder="Track cover" autocomplete="off">
+                    </div>
+                    <div *ngIf="isFieldInvalid('cover')" class="text-red-600 text-xs pl-3">
+                        <span *ngIf="trackForm.get('cover')?.errors?.['invalidCoverType']">
+                            Only PNG and JPEG images are allowed
+                        </span>
+                        <span *ngIf="trackForm.get('cover')?.errors?.['fileTooLarge']">
+                            File size must be less than 15MB
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit"
+                class="w-full cursor-pointer rounded-md shadow-sm text-white font-medium bg-black py-3 px-2 transition-all duration-200 hover:bg-gray-950 hover:shadow-md">
+                {{ (editedTrack) ? 'Update' : 'Create' }} Track
+            </button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="h-screen max-h-screen flex flex-col overflow-hidden bg-white text-black">
+    <div class="relative max-h-[84vh] h-[82vh] z-20">
+        <app-sidebar/>
+        <main class="h-full pt-[4vh] pl-[60px] md:pl-80 bg-gray-primary">
+            <router-outlet />
+        </main>
+    </div>
+    <div class="z-10 h-[18vh]">
+        <app-player class="flex flex-col border-t bg-gray-primary border-gray-200 h-full" />
+    </div>
+</div>

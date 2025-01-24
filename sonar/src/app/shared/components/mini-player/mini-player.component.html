@@ -1,0 +1,11 @@
+<div class="group flex items-center justify-between gap-2 border-b-0 shadow-sm border bg-white border-b-gray-400 rounded-lg hover:bg-gray-50 p-2 px-4 mb-2">
+    <div class="flex items-center gap-3 w-2/5">
+        <input type="radio" [checked]="file.active" name="audio" (change)="setAsActive()" class="w-4 h-4 cursor-pointer">
+        <p class="text-ellipsis overflow-hidden whitespace-nowrap">{{ file.name }}</p>
+    </div>
+
+    <audio controls class="max-w-[600px] h-8">
+        <source [src]="audioUrl" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+</div>

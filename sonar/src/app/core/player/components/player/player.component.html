@@ -1,0 +1,119 @@
+<div class="w-[95%] mx-auto h-[6vh] pb-2 flex gap-3 items-center">
+  <p class="text-[13px]">{{ currentTime | timeFormatPlayer }}</p>
+  <!-- <input class="w-full rounded-md h-full" min="0" max="225" step="0.1" type="range"> -->
+  <div class="range-slider w-full" style='--min:0;'
+    [ngStyle]="{'--max': (activeTrack$ | async) === null ? 100 : (activeTrack$ | async)!.duration, '--value': currentTime}">
+    <input type="range" min="0" [max]="(activeTrack$ | async) === null ? 100 : (activeTrack$ | async)!.duration" step="0.1" [value]="currentTime"
+      (change)="updateTrackProgress($event)" (input)="updateValue($event)">
+    <div class='range-slider__progress'></div>
+  </div>
+  <div *ngIf="bothSuccess$ | async">
+    <p *ngIf="activeTrack$ | async as track" class="text-[13px]">{{ track.duration| timeFormatPlayer }}</p>
+    <p *ngIf="!(activeTrack$ | async) as track " class="text-[13px]">00:00:00</p>
+  </div>
+  <div class="h-5 w-12 animate-pulse bg-gray-300 rounded-md" *ngIf="bothLoading$ | async">
+
+  </div>
+  <div *ngIf="bothIdle$ | async">
+    <p *ngIf="!(activeTrack$ | async) as track " class="text-[13px]">00:00:00</p>
+  </div>
+</div>
+<div class="w-[99%] mx-auto h-[12vh] flex items-center justify-between pb-2">
+  <div class="flex items-center gap-2 w-[35%] sm:w-[40%] md:w-[46%]">
+    <div *ngIf="bothSuccess$ | async" class="hidden md:block md:w-fit">
+      <img *ngIf="url" [src]="url" class="w-20 h-20 border border-gray-200 border-b-0 shadow-sm rounded-md hidden sm:block object-cover" alt="">
+      <img *ngIf="!url" src="assets/default_music.png"
+        class="w-20 h-20 border border-gray-200 border-b-0 shadow-sm rounded-md hidden sm:block object-cover" alt="">
+    </div>
+    <div class="hidden md:block md:w-fit" *ngIf="bothLoading$ | async">
+      <div class=" h-20 w-20 animate-pulse bg-gray-300 rounded-md">
+
+      </div>
+    </div>
+    <!-- <div *ngIf="bothIdle$ | async" class="hidden md:block md:w-fit">
+      <img src="assets/default_music.png" class="w-20 h-20 border border-gray-200 border-b-0 shadow-sm rounded-md hidden sm:block object-cover" alt="">
+    </div> -->
+    <div class="h-7 w-full animate-pulse bg-gray-300 rounded-md" *ngIf="bothLoading$ | async">
+
+    </div>
+    <div *ngIf="!(bothLoading$ | async)" class="w-4/5">
+      <p class="flex-shrink text-xl font-medium text-ellipsis overflow-hidden whitespace-nowrap">{{ (activeTrack$ | async)?.name }}</p>
+    </div>
+  </div>
+  <div class="flex justify-center items-center gap-2 md:gap-4 w-[10%] md:w-[14%]">
+    <button *ngIf="!(activeTrack$ | async) as track"
+      class="h-10 w-10 hover:bg-gray-100 active:bg-gray-300 rounded-md p-2 flex items-center justify-center">
+      <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M20.2409 7.21957V16.7896C20.2409 18.7496 18.1109 19.9796 16.4109 18.9996L12.2609 16.6096L8.11094 14.2096C6.41094 13.2296 6.41094 10.7796 8.11094 9.79957L12.2609 7.39957L16.4109 5.00957C18.1109 4.02957 20.2409 5.24957 20.2409 7.21957Z"
+          fill="#292D32" />
+        <path
+          d="M3.76172 18.9303C3.35172 18.9303 3.01172 18.5903 3.01172 18.1803V5.82031C3.01172 5.41031 3.35172 5.07031 3.76172 5.07031C4.17172 5.07031 4.51172 5.41031 4.51172 5.82031V18.1803C4.51172 18.5903 4.17172 18.9303 3.76172 18.9303Z"
+          fill="#292D32" />
+      </svg>
+    </button>
+    <button *ngIf="(activeTrack$ | async) as track" (click)="playPreviousTrack()"
+      class="h-10 w-10 hover:bg-gray-100 active:bg-gray-300 rounded-md p-2 flex items-center justify-center">
+      <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M20.2409 7.21957V16.7896C20.2409 18.7496 18.1109 19.9796 16.4109 18.9996L12.2609 16.6096L8.11094 14.2096C6.41094 13.2296 6.41094 10.7796 8.11094 9.79957L12.2609 7.39957L16.4109 5.00957C18.1109 4.02957 20.2409 5.24957 20.2409 7.21957Z"
+          fill="#292D32" />
+        <path
+          d="M3.76172 18.9303C3.35172 18.9303 3.01172 18.5903 3.01172 18.1803V5.82031C3.01172 5.41031 3.35172 5.07031 3.76172 5.07031C4.17172 5.07031 4.51172 5.41031 4.51172 5.82031V18.1803C4.51172 18.5903 4.17172 18.9303 3.76172 18.9303Z"
+          fill="#292D32" />
+      </svg>
+    </button>
+    <button *ngIf="(activeTrack$ | async) as track" (click)="togglePlayer()"
+      class="h-10 w-10 hover:bg-gray-100 active:bg-gray-300 rounded-md p-2 flex items-center justify-center">
+      <svg *ngIf="!isPlaying" class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" width="800px" height="800px" viewBox="0 0 24 24" fill="none">
+        <rect width="24" height="24" fill="none" />
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M3 5.49686C3 3.17662 5.52116 1.73465 7.52106 2.91106L18.5764 9.41423C20.5484 10.5742 20.5484 13.4259 18.5764 14.5858L7.52106 21.089C5.52116 22.2654 3 20.8234 3 18.5032V5.49686Z"
+          fill="#323232" />
+      </svg>
+      <svg *ngIf="isPlaying" class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" width="800px" height="800px" viewBox="0 0 24 24" fill="none">
+        <rect width="24" height="24" fill="none" />
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M20 5L20 19C20 20.6569 18.6569 22 17 22L16 22C14.3431 22 13 20.6569 13 19L13 5C13 3.34314 14.3431 2 16 2L17 2C18.6569 2 20 3.34315 20 5Z"
+          fill="#323232" />
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M8 2C9.65685 2 11 3.34315 11 5L11 19C11 20.6569 9.65685 22 8 22L7 22C5.34315 22 4 20.6569 4 19L4 5C4 3.34314 5.34315 2 7 2L8 2Z"
+          fill="#323232" />
+      </svg>
+    </button>
+    <button *ngIf="!(activeTrack$ | async) as track"
+      class="h-10 w-10 hover:bg-gray-100 active:bg-gray-300 rounded-md p-2 flex items-center justify-center">
+      <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" width="800px" height="800px" viewBox="0 0 24 24" fill="none">
+        <rect width="24" height="24" fill="none" />
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M3 5.49686C3 3.17662 5.52116 1.73465 7.52106 2.91106L18.5764 9.41423C20.5484 10.5742 20.5484 13.4259 18.5764 14.5858L7.52106 21.089C5.52116 22.2654 3 20.8234 3 18.5032V5.49686Z"
+          fill="#323232" />
+      </svg>
+    </button>
+    <button *ngIf="(activeTrack$ | async) as track" (click)="playNextTrack()"
+      class="h-10 w-10 hover:bg-gray-100 active:bg-gray-300 rounded-md p-2 flex items-center justify-center">
+      <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M3.76172 7.21957V16.7896C3.76172 18.7496 5.89172 19.9796 7.59172 18.9996L11.7417 16.6096L15.8917 14.2096C17.5917 13.2296 17.5917 10.7796 15.8917 9.79957L11.7417 7.39957L7.59172 5.00957C5.89172 4.02957 3.76172 5.24957 3.76172 7.21957Z"
+          fill="#292D32" />
+        <path
+          d="M20.2383 18.9303C19.8283 18.9303 19.4883 18.5903 19.4883 18.1803V5.82031C19.4883 5.41031 19.8283 5.07031 20.2383 5.07031C20.6483 5.07031 20.9883 5.41031 20.9883 5.82031V18.1803C20.9883 18.5903 20.6583 18.9303 20.2383 18.9303Z"
+          fill="#292D32" />
+      </svg>
+    </button>
+    <button *ngIf="!(activeTrack$ | async) as track"
+      class="h-10 w-10 hover:bg-gray-100 active:bg-gray-300 rounded-md p-2 flex items-center justify-center">
+      <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M3.76172 7.21957V16.7896C3.76172 18.7496 5.89172 19.9796 7.59172 18.9996L11.7417 16.6096L15.8917 14.2096C17.5917 13.2296 17.5917 10.7796 15.8917 9.79957L11.7417 7.39957L7.59172 5.00957C5.89172 4.02957 3.76172 5.24957 3.76172 7.21957Z"
+          fill="#292D32" />
+        <path
+          d="M20.2383 18.9303C19.8283 18.9303 19.4883 18.5903 19.4883 18.1803V5.82031C19.4883 5.41031 19.8283 5.07031 20.2383 5.07031C20.6483 5.07031 20.9883 5.41031 20.9883 5.82031V18.1803C20.9883 18.5903 20.6583 18.9303 20.2383 18.9303Z"
+          fill="#292D32" />
+      </svg>
+    </button>
+  </div>
+  <div class="w-[35%] sm:w-[40%] md:w-[46%] flex items-center justify-end">
+    <app-audio-button (setVolume)="updateVolume($event)" />
+  </div>
+</div>
