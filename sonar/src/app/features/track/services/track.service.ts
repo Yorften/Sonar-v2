@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IndexedDbService } from '../../../core/services/db/indexed-db.service';
-import { Track } from '../state/track.model';
+import { Track } from '../../../shared/models/track.model';
 import { Update } from '@ngrx/entity';
 
 @Injectable({
@@ -56,21 +56,21 @@ export class TrackService {
 
   async getAllTracksByName(searchTerm: string): Promise<Track[]> {
     await this.db.initialize();
-    
+
     return new Promise<Track[]>((resolve, reject) => {
       try {
         const store = this.db.getTransaction(this.storeName, 'readonly');
         const index = store.index('name');
-        
+
         const request = index.getAll();
-        
+
         request.onsuccess = () => {
-          const results = request.result.filter(track => 
+          const results = request.result.filter(track =>
             track.name.toLowerCase().includes(searchTerm.toLowerCase())
           );
           resolve(results);
         };
-        
+
         request.onerror = () => {
           const error = request.error?.message || 'Unknown error';
           console.error('Error searching tracks by name:', error);
@@ -81,7 +81,7 @@ export class TrackService {
       }
     });
   }
-  
+
 
   async updateTrack(update: Update<Track>): Promise<Update<Track>> {
     await this.db.initialize();

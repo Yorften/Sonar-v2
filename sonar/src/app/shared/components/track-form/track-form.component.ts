@@ -1,7 +1,7 @@
 import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MusicCategory } from '../../../core/enums/music-category.enum';
-import { Track } from '../../../features/track/state/track.model';
+import { Track } from '../../models/track.model';
 import { Observable, Subscribable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectEditedTrack } from '../../../features/track/state/track.reducer';
@@ -167,7 +167,7 @@ export class TrackFormComponent {
     const file = this.coverFile;
 
     if (file) {
-      console.log(file.type);    
+      console.log(file.type);
       if (!allowedTypes.includes(file.type)) {
         return { invalidCoverType: true };
       }

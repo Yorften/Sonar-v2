@@ -1,6 +1,6 @@
 import { createFeature, createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 import { PlayerActions } from './player.actions';
-import { Track } from '../../../features/track/state/track.model';
+import { Track } from '../../../shared/models/track.model';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 export const playersFeatureKey = 'player';

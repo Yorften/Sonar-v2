@@ -1,7 +1,7 @@
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { combineLatest, map, Observable, take } from 'rxjs';
-import { Track } from '../../../../features/track/state/track.model';
+import { Track } from '../../../../shared/models/track.model';
 import { selectActiveTrack, selectAll, selectError, selectTrackAudio, selectTrackAudioStatus, selectTrackCover, selectTrackCoverStatus } from '../../../../features/track/state/track.reducer';
 import { isPlatformBrowser } from '@angular/common';
 import { StoredFile } from '../../../services/file/file.service';
@@ -172,7 +172,7 @@ export class PlayerComponent {
       )
       .subscribe(([tracks, activeTrack]) => {
         if (!activeTrack || !tracks || tracks.length === 0) return;
-        
+
         const currentIndex = tracks.findIndex(track => track.id === activeTrack.id);
         const nextIndex = (currentIndex + 1) % tracks.length;
         const nextTrack = tracks[nextIndex];
@@ -201,7 +201,7 @@ export class PlayerComponent {
       });
   }
 
-  get volume(){
+  get volume() {
     return this._volume;
   }
 

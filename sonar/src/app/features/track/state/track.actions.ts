@@ -1,7 +1,7 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 
-import { Track } from './track.model';
+import { Track } from '../../../shared/models/track.model';
 import { StoredFile } from '../../../core/services/file/file.service';
 
 export const TrackActions = createActionGroup({

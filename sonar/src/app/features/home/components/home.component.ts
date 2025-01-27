@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { selectActiveTrack, selectMessage, selectStatus, selectTrackHistory } from '../../track/state/track.reducer';
-import { Track } from '../../track/state/track.model';
+import { Track } from '../../../shared/models/track.model';
 import { Store } from '@ngrx/store';
 import { TrackActions } from '../../track/state/track.actions';
 

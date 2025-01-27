@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { Track } from '../../../track/state/track.model';
+import { Track } from '../../../../shared/models/track.model';
 
 @Component({
   selector: 'app-track-settings',

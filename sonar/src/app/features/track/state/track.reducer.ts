@@ -1,6 +1,6 @@
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Track } from './track.model';
+import { Track } from '../../../shared/models/track.model';
 import { TrackActions } from './track.actions';
 import { StoredFile } from '../../../core/services/file/file.service';
 

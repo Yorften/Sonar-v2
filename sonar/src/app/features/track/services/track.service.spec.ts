@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { TrackService } from './track.service';
 import { IndexedDbService } from '../../../core/services/db/indexed-db.service';
-import { Track } from '../state/track.model';
+import { Track } from '../../../shared/models/track.model';
 import { Update } from '@ngrx/entity';
 import { MusicCategory } from '../../../core/enums/music-category.enum';
 

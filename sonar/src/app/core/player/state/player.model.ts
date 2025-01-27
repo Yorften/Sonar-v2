@@ -1,4 +1,4 @@
-import { Track } from "../../../features/track/state/track.model";
+import { Track } from "../../../shared/models/track.model";
 
 export interface Player {
   currentTrack: Track | null;

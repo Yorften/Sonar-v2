@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Track } from '../../../track/state/track.model';
+import { Track } from '../../../../shared/models/track.model';
 import { TrackActions } from '../../../track/state/track.actions';
 import { Observable } from 'rxjs';
 import { selectActiveTrack, selectAll, selectMessage, selectStatus, selectTrackAudio } from '../../../track/state/track.reducer';

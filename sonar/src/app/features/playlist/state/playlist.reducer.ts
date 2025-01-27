@@ -1,6 +1,6 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Playlist } from './playlist.model';
+import { Playlist } from '../../../shared/models/playlist.model';
 import { PlaylistActions } from './playlist.actions';
 
 export const playlistsFeatureKey = 'playlists';

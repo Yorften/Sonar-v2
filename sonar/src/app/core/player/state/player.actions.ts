@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { Track } from '../../../features/track/state/track.model';
+import { Track } from '../../../shared/models/track.model';
 
 export const PlayerActions = createActionGroup({
   source: 'Player/API',

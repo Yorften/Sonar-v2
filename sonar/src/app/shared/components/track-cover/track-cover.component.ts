@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FileService, StoredFile } from '../../../core/services/file/file.service';
-import { Track } from '../../../features/track/state/track.model';
+import { Track } from '../../models/track.model';
 import { FileType } from '../../../core/enums/file-type.enum';
 
 @Component({

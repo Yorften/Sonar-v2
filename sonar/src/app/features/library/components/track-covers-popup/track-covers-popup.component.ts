@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { StoredFile } from '../../../../core/services/file/file.service';
 import { selectLoadFilesStatus, selectTrackCovers } from '../../../track/state/track.reducer';
 import { TrackActions } from '../../../track/state/track.actions';
-import { Track } from '../../../track/state/track.model';
+import { Track } from '../../../../shared/models/track.model';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { FileType } from '../../../../core/enums/file-type.enum';
 
@@ -36,7 +36,7 @@ export class TrackCoversPopupComponent {
   async onSubmit() {
     if (this.trackCoverForm.invalid) return;
     console.log(this.coverFile);
-    
+
     const file: StoredFile = {
       id: `audio-${Date.now()}-${Math.random().toString(36)}`,
       file: this.coverFile,
@@ -57,7 +57,7 @@ export class TrackCoversPopupComponent {
     const file = this.coverFile;
 
     if (file) {
-      console.log(file.type);    
+      console.log(file.type);
       if (!allowedTypes.includes(file.type)) {
         return { invalidCoverType: true };
       }

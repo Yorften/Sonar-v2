@@ -1,7 +1,7 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 
-import { Playlist } from './playlist.model';
+import { Playlist } from '../../../shared/models/playlist.model';
 
 export const PlaylistActions = createActionGroup({
   source: 'Playlist/API',
