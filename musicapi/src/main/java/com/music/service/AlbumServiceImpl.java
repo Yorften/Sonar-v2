@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.music.dto.album.AlbumDTO;
 import com.music.dto.album.UpdateAlbumDTO;
@@ -32,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AlbumServiceImpl implements AlbumService {
 
     private final AlbumRepository albumRepository;
@@ -118,6 +120,7 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
+    @Transactional
     public AlbumDTO addAlbum(AlbumDTO albumDTO) {
         if (albumRepository.findByTitle(albumDTO.getTitle()).isPresent())
             throw new DuplicateResourceException("Album with this name already exists");
@@ -126,6 +129,7 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
+    @Transactional
     public AlbumDTO updateAlbum(String albumId, UpdateAlbumDTO albumDTO) {
         Album albumDB = albumRepository.findById(albumId)
                 .orElseThrow(() -> new ResourceNotFoundException("album not found"));
@@ -144,6 +148,7 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
+    @Transactional
     public void deleteAlbumById(String albumId) {
         Album album = albumRepository.findById(albumId)
                 .orElseThrow(() -> new ResourceNotFoundException("Album not found"));

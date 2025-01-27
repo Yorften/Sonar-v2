@@ -29,6 +29,10 @@ public class MusicDTO {
     @Min(value = 1, message = "Quantity must be greater than 0")
     private Integer duration;
 
+    private String audioFileId;
+
+    private String coverFileId;
+
     private AlbumDTO album;
 
 }

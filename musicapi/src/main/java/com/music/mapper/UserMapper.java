@@ -36,7 +36,6 @@ public class UserMapper {
     }
 
     public User convertToEntity(UserDTO userDTO) {
-        log.info("User DTO: " + userDTO.toString());
         List<Role> roles = roleService.getAllRolesByName(userDTO.getRoles());
 
         return User.builder()
@@ -49,6 +48,7 @@ public class UserMapper {
 
     public UserDTO convertToDTO(User user) {
         return UserDTO.builder()
+                .id(user.getId())
                 .email(user.getEmail())
                 .username(user.getUsername())
                 .build();
@@ -67,10 +67,12 @@ public class UserMapper {
 
         if (includesList.contains("role")) {
             List<Role> roles = user.getRoles();
-            roleDTOs = roles.stream().map(role -> RoleDTO.builder().name(role.getName()).build()).collect(Collectors.toList());
+            roleDTOs = roles.stream().map(role -> RoleDTO.builder().name(role.getName()).build())
+                    .collect(Collectors.toList());
         }
 
         return UserDTO.builder()
+                .id(user.getId())
                 .email(user.getEmail())
                 .username(user.getUsername())
                 .roles(roleDTOs)

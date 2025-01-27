@@ -1,9 +1,16 @@
 package com.music.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,11 +44,30 @@ public class MusicController {
     }
 
     @GetMapping("/album/{id}")
-    public Page<MusicDTO> getAllAlbumMusics(
-            @PathVariable("id") String albumId,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "5") int size) {
-        Pageable pageable = PageRequest.of((page - 1), size, Sort.by("ID").ascending());
-        return musicService.getAllAlbumMusics(pageable, albumId);
+    public List<MusicDTO> getAllAlbumMusics(
+            @PathVariable("id") String albumId) {
+        return musicService.getAllAlbumMusics(albumId);
+    }
+
+    @GetMapping("/{id}/file")
+    public ResponseEntity<InputStreamResource> streamMusic(@PathVariable String id) throws IllegalStateException, IOException {
+        
+        MusicDTO musicDTO = musicService.getMusicById(id);
+        InputStream audioStream = musicService.getAudioStream(musicDTO.getAudioFileId());
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(new InputStreamResource(audioStream));
+    }
+
+    @GetMapping("/{id}/cover")
+    public ResponseEntity<InputStreamResource> streamCover(@PathVariable String id) throws IllegalStateException, IOException {
+        
+        MusicDTO musicDTO = musicService.getMusicById(id);
+        InputStream audioStream = musicService.getCoverStream(musicDTO.getCoverFileId());
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(new InputStreamResource(audioStream));
     }
 }

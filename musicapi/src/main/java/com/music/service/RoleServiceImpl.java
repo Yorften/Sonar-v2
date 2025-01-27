@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.music.dto.role.RoleDTO;
 import com.music.model.Role;
@@ -21,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
@@ -33,7 +35,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<Role> getAllRolesByName(List<RoleDTO> roles) {
-        roles.forEach(role -> log.info("Role : " + role.toString()));
         List<Role> roleEntities = new ArrayList<>();
         try {
             Iterable<String> roleNames = roles
@@ -42,8 +43,7 @@ public class RoleServiceImpl implements RoleService {
                     .collect(Collectors.toList());
 
             roleRepository.findAllByNameIn(roleNames).forEach(roleEntities::add);
-            roleEntities.forEach(role -> log.info("Role : " + role.toString()));
-        } catch (Exception e) {
+            } catch (Exception e) {
             log.error("Error fetching roles", e);
         }
 

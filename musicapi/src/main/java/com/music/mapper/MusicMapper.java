@@ -46,8 +46,11 @@ public class MusicMapper {
 
     public MusicDTO convertToDTO(Music music) {
         return MusicDTO.builder()
+                .id(music.getId())
                 .title(music.getTitle())
                 .duration(music.getDuration())
+                .audioFileId(music.getAudioFileId())
+                .coverFileId(music.getCoverFileId())
                 .build();
     }
 
@@ -66,6 +69,7 @@ public class MusicMapper {
             Album album = music.getAlbum();
             if (album != null) {
                 albumDTO = AlbumDTO.builder()
+                        .id(album.getId())
                         .title(album.getTitle())
                         .artist(album.getArtist())
                         .year(album.getYear())
@@ -74,8 +78,11 @@ public class MusicMapper {
         }
 
         return MusicDTO.builder()
+                .id(music.getId())
                 .title(music.getTitle())
                 .duration(music.getDuration())
+                .audioFileId(music.getAudioFileId())
+                .coverFileId(music.getCoverFileId())
                 .album(albumDTO)
                 .build();
     }

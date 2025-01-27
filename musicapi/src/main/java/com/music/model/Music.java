@@ -35,6 +35,10 @@ public class Music {
 
     private Integer duration;
 
+    private String audioFileId;
+
+    private String coverFileId;
+
     @CreatedDate
     private LocalDateTime createdAt;
 

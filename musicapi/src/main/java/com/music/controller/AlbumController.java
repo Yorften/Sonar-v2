@@ -1,5 +1,7 @@
 package com.music.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,12 +42,9 @@ public class AlbumController {
     }
 
     @GetMapping("/{id}/musics")
-    public Page<MusicDTO> getAllAlbumMusics(
-            @PathVariable("id") String albumId,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "5") int size) {
-        Pageable pageable = PageRequest.of((page - 1), size, Sort.by("ID").ascending());
-        return musicService.getAllAlbumMusics(pageable, albumId);
+    public List<MusicDTO> getAllAlbumMusics(
+            @PathVariable("id") String albumId) {
+        return musicService.getAllAlbumMusics(albumId);
     }
 
     @GetMapping("/{id}")

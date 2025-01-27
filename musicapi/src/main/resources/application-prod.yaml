@@ -1,0 +1,8 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+        
+  data:
+    mongodb:
+      uri: ${SPRING_MONGODB_URI:mongodb://localhost:27017/musicapi}

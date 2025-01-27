@@ -15,8 +15,8 @@
 <div *ngIf="isOpen"
     class="absolute top-8 right-2 md:-right-3 w-40 bg-gray-secondary flex flex-col items-center rounded-md menu-container z-30 border border-gray-300 border-b-0 shadow-md cursor-pointer">
     <div (click)="editTrack()" class="hover:bg-gray-300 w-full py-2 px-3 rounded-t-md">Edit</div>
-    <div (click)="isOpenFilesPopup = !isOpenFilesPopup" class="hover:bg-gray-300 w-full py-2 px-3">Audio files</div>
-    <div (click)="isOpenCoversPopup = !isOpenCoversPopup" class="hover:bg-gray-300 w-full py-2 px-3 rounded-b-md">Covers</div>
+    <!-- <div (click)="isOpenFilesPopup = !isOpenFilesPopup" class="hover:bg-gray-300 w-full py-2 px-3">Audio files</div>
+    <div (click)="isOpenCoversPopup = !isOpenCoversPopup" class="hover:bg-gray-300 w-full py-2 px-3 rounded-b-md">Covers</div> -->
 </div>
-<app-track-files-popup [track]="track" *ngIf="isOpenFilesPopup" (close)="closeFilesPopup()" />
-<app-track-covers-popup [track]="track" *ngIf="isOpenCoversPopup" (close)="closeCoversPopup()" />
+<!-- <app-track-files-popup [track]="track" *ngIf="isOpenFilesPopup" (close)="closeFilesPopup()" />
+<app-track-covers-popup [track]="track" *ngIf="isOpenCoversPopup" (close)="closeCoversPopup()" /> -->

@@ -17,3 +17,8 @@ spring:
     default-property-inclusion: NON_NULL
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:prod}
+  servlet:
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 15MB
+

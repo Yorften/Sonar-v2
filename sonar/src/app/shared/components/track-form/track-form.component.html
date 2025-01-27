@@ -62,7 +62,7 @@
                     </div>
                 </div>
 
-                <div *ngIf="!editedTrack" class="flex flex-col mb-3 w-full">
+                <div class="flex flex-col mb-3 w-full">
                     <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
                         <p class="text-xs">Track file</p>
                         <input (input)="onFileChange($event, 'file')" id="file" type="file" formControlName="file"
@@ -82,7 +82,7 @@
                     </div>
                 </div>
 
-                <div *ngIf="!editedTrack" class="flex flex-col mb-3 w-full">
+                <div class="flex flex-col mb-3 w-full">
                     <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
                         <p class="text-xs">Track cover</p>
                         <input (input)="onFileChange($event, 'cover')" id="cover" type="file" formControlName="cover"
