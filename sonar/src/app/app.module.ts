@@ -14,6 +14,8 @@ import { HomeModule } from './features/home/home.module';
 import { RouterLink } from '@angular/router';
 import { AuthModule } from './features/auth/auth.module';
 import * as fromAuth from './features/auth/state/auth.reducer';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { jwtInterceptor } from './core/jwt.interceptor';
 
 
 @NgModule({
@@ -37,6 +39,7 @@ import * as fromAuth from './features/auth/state/auth.reducer';
   ],
   providers: [
     provideClientHydration(),
+    { provide: HTTP_INTERCEPTORS, useValue: jwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

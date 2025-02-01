@@ -35,7 +35,7 @@ export class RegisterComponent {
     const { username, email, password, repeatPassword } = this.registerForm.value;
 
     const newUser: User = {
-      id: '', // Leave blank if the backend generates the ID.
+      id: null, // Leave blank if the backend generates the ID.
       username,
       email,
       password,
