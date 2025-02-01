@@ -32,8 +32,8 @@ export class IndexedDbService {
           const store = db.createObjectStore('tracks', { keyPath: 'id' });
           store.createIndex('name', 'name', { unique: false });
         }
-        if (!db.objectStoreNames.contains('playlists')) {
-          const store = db.createObjectStore('playlists', { keyPath: 'id' });
+        if (!db.objectStoreNames.contains('albums')) {
+          const store = db.createObjectStore('albums', { keyPath: 'id' });
         }
         if (!db.objectStoreNames.contains('files')) {
           const store = db.createObjectStore('files', { keyPath: 'id' });

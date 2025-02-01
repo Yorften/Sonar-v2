@@ -7,34 +7,38 @@ import { EffectsModule } from '@ngrx/effects';
 import { PlayerEffects } from './player/state/player.effects';
 import { PlayerComponent } from './player/components/player/player.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
-import { PlaylistMenuComponent } from './shared/playlist-menu/playlist-menu.component';
-import { IndexedDbService } from './services/db/indexed-db.service';
+// import { IndexedDbService } from './services/db/indexed-db.service';
 import { AudioButtonComponent } from './player/components/audio-button/audio-button.component';
 import { HomeComponent } from '../features/home/components/home.component'
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AlbumMenuComponent } from './shared/playlist-menu/album-menu.component';
+import { UserMenuComponent } from './shared/user-menu/user-menu.component';
 
 @NgModule({
   declarations: [
     SidebarComponent,
     PlayerComponent,
-    PlaylistMenuComponent,
+    AlbumMenuComponent,
     AudioButtonComponent,
     HomeComponent,
+    UserMenuComponent,
   ],
   imports: [
+    ReactiveFormsModule,
     CommonModule,
     SharedModule,
     RouterModule,
     StoreModule.forFeature(fromPlayer.playersFeatureKey, fromPlayer.reducer),
-    EffectsModule.forFeature([PlayerEffects])
+    EffectsModule.forFeature([PlayerEffects]),
   ],
   exports: [
     SidebarComponent,
     PlayerComponent
   ],
   providers: [
-    IndexedDbService
+
   ]
 })
 export class CoreModule { }

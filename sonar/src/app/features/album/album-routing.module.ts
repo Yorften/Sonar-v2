@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/home.component';
+import { AlbumComponent } from './components/album/album.component';
 import { AuthGuard } from '../../core/auth.guard';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', component: HomeComponent, canActivate: [AuthGuard] }
+  { path: 'albums', pathMatch: 'full', component: AlbumComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class HomeRoutingModule { }
+export class AlbumRoutingModule { }
