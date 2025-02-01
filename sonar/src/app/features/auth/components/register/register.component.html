@@ -1,0 +1,100 @@
+<div class="fixed w-full h-full top-0 left-0 items-center flex flex-col gap-5 justify-center z-50 task-popup-background">
+    <p class="text-5xl font-medium">Register an Account</p>
+    <div class="bg-white w-11/12 md:w-7/12 h-fit shadow-xl flex flex-col items-center overflow-hidden rounded-md md:h-fit register-form-container">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()"
+            class="flex flex-col items-center justify-between gap-5 px-[5%] w-[96%] sm:w-[98%] md:w-[97%] lg:w-[98.5%] mx-auto overflow-x-hidden overflow-y-auto mt-2 py-10">
+        <div class="flex flex-col items-center gap-4 w-full">
+          <!-- Username Field -->
+          <div class="flex flex-col mb-3 w-full">
+            <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+              <p class="text-xs">Username</p>
+              <input id="username" type="text" formControlName="username" [class.is-invalid]="isFieldInvalid('username')"
+                     class="placeholder:font-light placeholder:text-xs focus:outline-none" placeholder="Enter your username" autocomplete="off">
+            </div>
+            <div *ngIf="isFieldInvalid('username')" class="text-red-600 text-xs pl-3">
+              <span *ngIf="registerForm.get('username')?.errors?.['required']">
+                Username is required
+              </span>
+              <span *ngIf="registerForm.get('username')?.errors?.['minlength']">
+                Username must be at least 4 characters
+              </span>
+              <span *ngIf="registerForm.get('username')?.errors?.['maxlength']">
+                Username must be no more than 32 characters
+              </span>
+            </div>
+          </div>
+  
+          <!-- Email Field -->
+          <div class="flex flex-col mb-3 w-full">
+            <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+              <p class="text-xs">Email</p>
+              <input id="email" type="email" formControlName="email" [class.is-invalid]="isFieldInvalid('email')"
+                     class="placeholder:font-light placeholder:text-xs focus:outline-none" placeholder="Enter your email" autocomplete="off">
+            </div>
+            <div *ngIf="isFieldInvalid('email')" class="text-red-600 text-xs pl-3">
+              <span *ngIf="registerForm.get('email')?.errors?.['required']">
+                Email is required
+              </span>
+              <span *ngIf="registerForm.get('email')?.errors?.['email']">
+                Please enter a valid email address
+              </span>
+              <span *ngIf="registerForm.get('email')?.errors?.['minlength']">
+                Email must be at least 8 characters
+              </span>
+              <span *ngIf="registerForm.get('email')?.errors?.['maxlength']">
+                Email must be no more than 32 characters
+              </span>
+            </div>
+          </div>
+  
+          <!-- Password Field -->
+          <div class="flex flex-col mb-3 w-full">
+            <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+              <p class="text-xs">Password</p>
+              <input id="password" type="password" formControlName="password" [class.is-invalid]="isFieldInvalid('password')"
+                     class="placeholder:font-light placeholder:text-xs focus:outline-none" placeholder="Enter your password" autocomplete="off">
+            </div>
+            <div *ngIf="isFieldInvalid('password')" class="text-red-600 text-xs pl-3">
+              <span *ngIf="registerForm.get('password')?.errors?.['required']">
+                Password is required
+              </span>
+              <span *ngIf="registerForm.get('password')?.errors?.['minlength']">
+                Password must be at least 8 characters
+              </span>
+              <span *ngIf="registerForm.get('password')?.errors?.['maxlength']">
+                Password must be no more than 32 characters
+              </span>
+            </div>
+          </div>
+  
+          <!-- Repeat Password Field -->
+          <div class="flex flex-col mb-3 w-full">
+            <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+              <p class="text-xs">Repeat Password</p>
+              <input id="repeatPassword" type="password" formControlName="repeatPassword" [class.is-invalid]="isFieldInvalid('repeatPassword')"
+                     class="placeholder:font-light placeholder:text-xs focus:outline-none" placeholder="Repeat your password" autocomplete="off">
+            </div>
+            <div *ngIf="isFieldInvalid('repeatPassword') || registerForm.errors?.['passwordsMismatch']" class="text-red-600 text-xs pl-3">
+              <span *ngIf="registerForm.get('repeatPassword')?.errors?.['required']">
+                Repeat Password is required
+              </span>
+              <span *ngIf="registerForm.errors?.['passwordsMismatch']">
+                Passwords do not match
+              </span>
+            </div>
+          </div>
+        </div>
+  
+        <p class="text-center text-sm text-gray-600 self-end">
+          Already have an account?
+          <a routerLink="/auth/login" class="underline hover:text-blue-800">Login here</a>
+        </p>
+  
+        <button type="submit"
+                class="w-full cursor-pointer rounded-md shadow-sm text-white font-medium bg-black py-3 px-2 transition-all duration-200 hover:bg-gray-950 hover:shadow-md">
+          Register
+        </button>
+      </form>
+    </div>
+  </div>
+  

@@ -1,11 +1,17 @@
 <div class="h-screen max-h-screen flex flex-col overflow-hidden bg-white text-black">
-    <div class="relative max-h-[84vh] h-[82vh] z-20">
-        <app-sidebar/>
-        <main class="h-full pt-[4vh] pl-[60px] md:pl-80 bg-gray-primary">
+    <div [ngClass]="{
+        'max-h-[84vh] h-[82vh]': (isAuthenticated$ | async),
+        'max-h-screen h-screen': !(isAuthenticated$ | async)
+      }" class="relative z-20">
+        <app-sidebar *ngIf="(isAuthenticated$ | async)"></app-sidebar>
+        <main [ngClass]="{
+            'pl-[60px] md:pl-80': (isAuthenticated$ | async),
+            'pl-0': !(isAuthenticated$ | async)
+          }" class="h-full pt-[4vh] bg-gray-primary">
             <router-outlet />
         </main>
     </div>
-    <div class="z-10 h-[18vh]">
+    <div class="z-10 h-[18vh]" *ngIf="(isAuthenticated$ | async)">
         <app-player class="flex flex-col border-t bg-gray-primary border-gray-200 h-full" />
     </div>
 </div>

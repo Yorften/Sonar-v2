@@ -12,7 +12,6 @@ import { Update } from '@ngrx/entity';
 @Component({
   selector: 'app-track-form',
   templateUrl: './track-form.component.html',
-  styleUrl: './track-form.component.scss'
 })
 export class TrackFormComponent {
 
@@ -58,8 +57,8 @@ export class TrackFormComponent {
       this.trackForm.patchValue({
         id: this.editedTrack.id,
         name: this.editedTrack.name,
-        author: this.editedTrack.author,
-        category: this.editedTrack.category,
+        // author: this.editedTrack.author,
+        // category: this.editedTrack.category,
       })
     }
   }
