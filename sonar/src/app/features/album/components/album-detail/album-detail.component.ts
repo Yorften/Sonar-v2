@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Track } from '../../../../shared/models/track.model';
 import { Store } from '@ngrx/store';
 import { selectAlbum, selectMessage, selectStatus } from '../../state/album.reducer';
@@ -8,6 +8,8 @@ import { AlbumActions } from '../../state/album.actions';
 import { ActivatedRoute } from '@angular/router';
 import { selectActiveTrack, selectAll } from '../../../track/state/track.reducer';
 import { TrackActions } from '../../../track/state/track.actions';
+import { User } from '../../../../shared/models/user.model';
+import { selectUser } from '../../../auth/state/auth.reducer';
 
 @Component({
   selector: 'app-album-detail',
@@ -21,6 +23,10 @@ export class AlbumDetailComponent {
   error$: Observable<string | null> = this.store.select(selectMessage);
   activeTrack$: Observable<Track | null> = this.store.select(selectActiveTrack);
   album$: Observable<Album | null> = this.store.select(selectAlbum);
+  user$: Observable<User | null> = this.store.select(selectUser);
+    isAdmin$: Observable<boolean> = this.user$.pipe(
+      map(user => user?.roles?.some(r => r.name === 'ROLE_ADMIN') ?? false)
+    );
   albumId: string | null = null;
   openTrackId: string | null = null;
 

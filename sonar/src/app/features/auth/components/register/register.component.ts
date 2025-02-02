@@ -43,6 +43,7 @@ export class RegisterComponent {
     };
 
     this.store.dispatch(AuthActions.register({ user: newUser }));
+    this.registerForm.reset();
   }
 
   isFieldInvalid(fieldName: string): boolean {

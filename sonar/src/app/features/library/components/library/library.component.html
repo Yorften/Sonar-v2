@@ -2,7 +2,7 @@
     <div class="h-[14vh] pt-[4vh] px-[4%]">
         <div class="flex items-center justify-between w-full">
             <p class="text-5xl font-medium">Music</p>
-            <app-button-primary *ngIf="isAdmin$" (click)="isOpen = !isOpen" content="Add track" />
+            <app-button-primary *ngIf="isAdmin$ | async" (click)="isOpen = !isOpen" content="Add track" />
         </div>
     </div>
     <div *ngIf="status$ | async as status" class="flex-1 min-h-0 overflow-y-auto md:px-[4%]">
@@ -56,7 +56,7 @@
                         <p class="text-ellipsis overflow-hidden whitespace-nowrap">{{ track.duration | timeFormat }}</p>
                     </div>
                     <div class="flex items-center justify-end w-[6%] md:w-[3%]">
-                        <app-track-settings [track]="track" [isOpen]="openTrackId === track.id" (toggleMenu)="toggleMenu(track.id)"
+                        <app-track-settings *ngIf="isAdmin$ | async" [track]="track" [isOpen]="openTrackId === track.id" (toggleMenu)="toggleMenu(track.id)"
                             (closeMenu)="closeMenu()" (open)="editTrack(track)" class="relative !text-gray-800" />
                     </div>
                 </div>

@@ -82,7 +82,7 @@
                         <p class="text-ellipsis overflow-hidden whitespace-nowrap">{{ track.duration | timeFormat }}</p>
                     </div>
                     <div class="flex items-center justify-end w-[6%] md:w-[3%]">
-                        <app-track-settings [track]="track" [isOpen]="openTrackId === track.id" (toggleMenu)="toggleMenu(track.id)"
+                        <app-track-settings *ngIf="isAdmin$ | async" [track]="track" [isOpen]="openTrackId === track.id" (toggleMenu)="toggleMenu(track.id)"
                             (closeMenu)="closeMenu()" (open)="editTrack(track)" class="relative !text-gray-800" />
                     </div>
                 </div>
