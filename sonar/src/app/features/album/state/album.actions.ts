@@ -28,9 +28,5 @@ export const AlbumActions = createActionGroup({
     'Get Album': props<{ id: string }>(),
     'Get Album Success': props<{ album: Album }>(),
     'Get Album Failure': props<{ error: string }>(),
-    
-    'Get Album Tracks': props<{ id: string }>(),
-    'Get Album Tracks Success': props<{ tracks: Track[] }>(),
-    'Get Album Tracks Failure': props<{ error: string }>()
   }
 });

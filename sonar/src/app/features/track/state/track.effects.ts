@@ -6,6 +6,7 @@ import { TrackActions } from './track.actions';
 import { TrackService } from '../../../core/services/track/track.service';
 import { Track } from '../../../shared/models/track.model';
 import { Update } from '@ngrx/entity';
+import { AlbumService } from '../../../core/services/album/album.service';
 
 
 @Injectable()
@@ -22,6 +23,21 @@ export class TrackEffects {
         ))
     );
   });
+
+    // Get Album Tracks (musics)
+    getAlbumTracks$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(TrackActions.getAlbumTracks),
+        mergeMap(({ id }) =>
+          this.albumService.getAlbumTracks(id).pipe(
+            map(tracks => TrackActions.getAlbumTracksSuccess({ tracks })),
+            catchError(error =>
+              of(TrackActions.getAlbumTracksFailure({ error: error.message || 'Error fetching album tracks' }))
+            )
+          )
+        )
+      )
+    );
 
   searchTracks$ = createEffect(() => {
     return this.actions$.pipe(
@@ -127,7 +143,7 @@ export class TrackEffects {
   );
 
 
-  constructor(private actions$: Actions, private trackService: TrackService) { }
+  constructor(private actions$: Actions, private trackService: TrackService, private albumService: AlbumService) { }
 }
 
 

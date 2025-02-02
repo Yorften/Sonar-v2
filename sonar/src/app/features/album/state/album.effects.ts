@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { AlbumActions } from './album.actions';
 import { AlbumService } from '../../../core/services/album/album.service';
+import { TrackActions } from '../../track/state/track.actions';
+import { Store } from '@ngrx/store';
+import { selectAlbum } from './album.reducer';
 
 
 @Injectable()
@@ -89,21 +92,6 @@ export class AlbumEffects {
     )
   );
 
-  // Get Album Tracks (musics)
-  getAlbumTracks$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AlbumActions.getAlbumTracks),
-      mergeMap(({ id }) =>
-        this.albumService.getAlbumTracks(id).pipe(
-          map(tracks => AlbumActions.getAlbumTracksSuccess({ tracks })),
-          catchError(error =>
-            of(AlbumActions.getAlbumTracksFailure({ error: error.message || 'Error fetching album tracks' }))
-          )
-        )
-      )
-    )
-  );
-
-  constructor(private actions$: Actions, private albumService: AlbumService) { }
+  constructor(private actions$: Actions, private albumService: AlbumService, private store: Store) { }
 
 }

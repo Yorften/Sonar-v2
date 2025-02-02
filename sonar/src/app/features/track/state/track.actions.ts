@@ -38,6 +38,10 @@ export const TrackActions = createActionGroup({
     'Search Tracks Success': props<{ tracks: Track[] }>(),
     'Search Tracks Failure': props<{ error: string }>(),
 
+    'Get Album Tracks': props<{ id: string }>(),
+    'Get Album Tracks Success': props<{ tracks: Track[] }>(),
+    'Get Album Tracks Failure': props<{ error: string }>(),
+
     'Play Track': props<{ track: Track }>(),
     'Clear Track': emptyProps(),
     'Load Track History': props<{ track: Track }>(),

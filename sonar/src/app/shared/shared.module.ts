@@ -6,14 +6,15 @@ import { ButtonPrimaryComponent } from './components/button-primary/button-prima
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlbumFormComponent } from './components/album-form/album-form.component';
 import { TrackFormComponent } from './components/track-form/track-form.component';
+import { TrackSettingsComponent } from './components/track-settings/track-settings.component';
 
 
 @NgModule({
-  declarations: [TimeFormatPlayerPipe, TimeFormatPipe, ButtonPrimaryComponent, AlbumFormComponent, TrackFormComponent],
+  declarations: [TimeFormatPlayerPipe, TimeFormatPipe, ButtonPrimaryComponent, AlbumFormComponent, TrackFormComponent, TrackSettingsComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule
   ],
-  exports: [TimeFormatPlayerPipe, TimeFormatPipe, ButtonPrimaryComponent, AlbumFormComponent, TrackFormComponent]
+  exports: [TimeFormatPlayerPipe, TimeFormatPipe, ButtonPrimaryComponent, AlbumFormComponent, TrackFormComponent, TrackSettingsComponent]
 })
 export class SharedModule { }

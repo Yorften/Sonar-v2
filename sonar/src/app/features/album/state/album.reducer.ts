@@ -12,7 +12,6 @@ export interface State extends EntityState<Album> {
   editedAlbum: Album | null;
   error: string | null;
   album: Album | null;
-  tracks: Track[] | [];
 }
 
 export const adapter: EntityAdapter<Album> = createEntityAdapter<Album>();
@@ -23,7 +22,6 @@ export const initialState: State = adapter.getInitialState({
   editedAlbum: null,
   error: null,
   album: null,
-  tracks: [],
 });
 
 export const reducer = createReducer(
@@ -54,22 +52,6 @@ export const reducer = createReducer(
     message: null
   })),
   on(AlbumActions.getAlbumFailure, (state, { error }) => ({
-    ...state,
-    status: 'error' as const,
-    message: error
-  })),
-  
-  on(AlbumActions.getAlbumTracks, (state) => ({
-    ...state,
-    status: 'loading' as const
-  })),
-  on(AlbumActions.getAlbumTracksSuccess, (state, { tracks }) => ({
-    ...state,
-    tracks: tracks,
-    status: 'success' as const,
-    message: null
-  })),
-  on(AlbumActions.getAlbumTracksFailure, (state, { error }) => ({
     ...state,
     status: 'error' as const,
     message: error
@@ -169,10 +151,6 @@ export const albumsFeature = createFeature({
       selectAlbumsState,
       (state: State) => state.album
     ),
-    selectTracks: createSelector(
-      selectAlbumsState,
-      (state: State) => state.tracks
-    ),
   }),
 });
 
@@ -186,5 +164,4 @@ export const {
   selectEditedAlbum,
   selectError,
   selectAlbum,
-  selectTracks,
 } = albumsFeature;

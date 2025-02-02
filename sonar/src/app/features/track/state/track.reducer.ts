@@ -101,6 +101,20 @@ export const reducer = createReducer(
     message: error
   })),
 
+  on(TrackActions.getAlbumTracks, (state) => ({
+    ...state,
+    status: 'loading' as const
+  })),
+  on(TrackActions.getAlbumTracksSuccess, (state, { tracks }) => ({
+    ...adapter.setAll(tracks, state),
+    status: 'success' as const,
+    message: null
+  })),
+  on(TrackActions.getAlbumTracksFailure, (state, { error }) => ({
+    ...state,
+    status: 'error' as const,
+    message: error
+  })),
 
   on(TrackActions.searchTracks, (state) => ({
     ...state,
@@ -147,8 +161,6 @@ export const reducer = createReducer(
     error: error,
     loadTrackCoverStatus: 'error' as const,
   })),
-
-
 
 
   on(TrackActions.addTrack, (state) => ({

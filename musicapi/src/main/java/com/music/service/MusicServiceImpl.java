@@ -103,7 +103,7 @@ public class MusicServiceImpl implements MusicService {
     @Override
     public List<MusicDTO> getAllAlbumMusics(String albumId) {
         List<Music> musics = musicRepository.findByAlbumId(albumId);
-        return musicMapper.convertToDTOList(musics);
+        return musicMapper.convertToDTOList(musics, "album");
     }
 
     @Override
