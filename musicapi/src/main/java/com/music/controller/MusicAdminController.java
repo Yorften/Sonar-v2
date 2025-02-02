@@ -39,7 +39,7 @@ public class MusicAdminController {
             @RequestPart(required = true) MultipartFile file,
             @RequestPart(required = false) MultipartFile cover) throws IOException {
 
-        try (InputStream fileInputStream = cover != null ? file.getInputStream() : null;
+        try (InputStream fileInputStream = file != null ? file.getInputStream() : null;
                 InputStream coverInputStream = cover != null ? cover.getInputStream() : null) {
 
             FileUploadData fileUploadData = FileUploadData.builder()
@@ -65,7 +65,7 @@ public class MusicAdminController {
 
             FileUploadData fileUploadData = FileUploadData.builder()
                     .fileInputStream(fileInputStream)
-                    .fileName(file.getOriginalFilename())
+                    .fileName(file != null ? file.getOriginalFilename() : null)
                     .coverInputStream(coverInputStream)
                     .coverName(cover != null ? cover.getOriginalFilename() : null)
                     .build();

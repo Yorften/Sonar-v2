@@ -45,20 +45,17 @@
                         </svg>
                     </div>
                     <div class="flex items-center w-[30%]">
-                        <p class="text-ellipsis overflow-hidden whitespace-nowrap"> {{ track.name }}</p>
+                        <p class="text-ellipsis overflow-hidden whitespace-nowrap"> {{ track.id }}</p>
                     </div>
-                    <!-- <div class="flex items-center justify-center w-[19%] md:w-[15%]">
-                        <p class="text-ellipsis overflow-hidden whitespace-nowrap">{{ track.author }}</p>
+                    <div class="flex items-center w-[30%]">
+                        <p class="text-ellipsis overflow-hidden whitespace-nowrap"> {{ track.title }}</p>
                     </div>
-                    <div class="flex items-center justify-center w-[19%] md:w-[15%]">
-                        <p class="text-ellipsis overflow-hidden whitespace-nowrap">{{ track.category }}</p>
+                    <div class="flex items-center justify-center w-[18%] md:w-[19%]">
+                        <p class="text-ellipsis overflow-hidden whitespace-nowrap">{{ track.album.title }}</p>
                     </div>
-                    <div class="flex items-center justify-center w-0 md:w-[15%]">
-                        <p class="text-ellipsis overflow-hidden whitespace-nowrap">{{ track.creationDate | date:'dd/MM/yyyy' }}</p>
-                    </div> -->
-                    <!-- <div class="flex items-center justify-center md:justify-end w-[19%] md:w-[15%]">
+                    <div class="flex items-center justify-center md:justify-end w-[18%] md:w-[19%]">
                         <p class="text-ellipsis overflow-hidden whitespace-nowrap">{{ track.duration | timeFormat }}</p>
-                    </div> -->
+                    </div>
                 </div>
             </div>
             <div *ngIf="!((tracks$ | async)?.length! > 0)" class="flex flex-col gap-1 items-center">

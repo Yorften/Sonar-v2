@@ -39,7 +39,7 @@ export class RegisterComponent {
       email,
       password,
       repeatPassword,
-      roles: ['ROLE_USER']
+      roles: []
     };
 
     this.store.dispatch(AuthActions.register({ user: newUser }));

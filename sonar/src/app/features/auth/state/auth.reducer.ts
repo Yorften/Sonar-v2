@@ -66,6 +66,9 @@ export const reducer = createReducer(
   })),
   on(AuthActions.loadUserFailure, (state, { error }) => ({
     ...state,
+    user: null,
+    jwt: null,
+    isAuthenticated: false,
     error: error
   })),
 

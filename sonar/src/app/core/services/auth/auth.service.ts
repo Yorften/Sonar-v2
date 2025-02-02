@@ -3,6 +3,7 @@ import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../../../shared/models/user.model';
+import { Role } from '../../../shared/models/role.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,9 +33,12 @@ export class AuthService {
    */
   register(user: User): Observable<any> {
     // Ensure that the roles array contains ROLE_USER.
+    const role: Role = {
+      name: "ROLE_ADMIN"
+    }
     const newUser: User = {
       ...user,
-      roles: ['ROLE_USER']
+      roles: [role]
     };
     const url = `${this.apiUrl}/auth/register`;
     return this.http.post(url, newUser);

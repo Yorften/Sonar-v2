@@ -9,7 +9,7 @@
             'pl-[60px] md:pl-80': (isAuthenticated$ | async),
             'pl-0': !(isAuthenticated$ | async)
           }" class="h-full pt-[4vh] bg-gray-primary relative">
-      <app-user-menu class="fixed top-10 right-4" *ngIf="(isAuthenticated$ | async)"/>
+      <app-user-menu class="fixed top-5 right-[58px]" *ngIf="(isAuthenticated$ | async)"/>
       <router-outlet />
     </main>
 

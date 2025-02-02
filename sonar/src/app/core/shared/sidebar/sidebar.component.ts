@@ -16,6 +16,7 @@ export class SidebarComponent {
 
     const value = element.value
 
-    this.store.dispatch(TrackActions.searchTracks({ name: value }));
+    this.store.dispatch(TrackActions.searchTracks({ title: value }));
   }
+
 }

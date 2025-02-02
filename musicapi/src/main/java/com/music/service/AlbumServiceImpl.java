@@ -3,9 +3,6 @@ package com.music.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -62,7 +59,7 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public Page<AlbumDTO> getAllAlbums(Pageable pageable, String title, String artist, Integer year) {
+    public List<AlbumDTO> getAllAlbums(String title, String artist, Integer year) {
 
         Query query = new Query();
 
@@ -79,44 +76,11 @@ public class AlbumServiceImpl implements AlbumService {
             query.addCriteria(Criteria.where("year").is(year));
         }
 
-        query.with(pageable);
-
         List<Album> albums = mongoTemplate.find(query, Album.class);
-        long count = mongoTemplate.count(query.skip(pageable.getOffset()).limit(pageable.getPageSize()), Album.class);
 
-        List<AlbumDTO> albumDTOs = albums.stream()
+        return albums.stream()
                 .map(album -> albumMapper.convertToDTO(album))
                 .collect(Collectors.toList());
-
-        return new PageImpl<>(albumDTOs, pageable, count);
-    }
-
-    @Override
-    public Page<AlbumDTO> getAllAlbums(Pageable pageable, String title, String artist, Integer year,
-            String... with) {
-        albumMapper.verifyIncludes(with);
-        Query query = new Query();
-
-        if (title != null && !title.isEmpty()) {
-            query.addCriteria(Criteria.where("title").regex(title, "i"));
-        }
-        if (artist != null && !artist.isEmpty()) {
-            query.addCriteria(Criteria.where("artist").regex(artist, "i"));
-        }
-        if (year != null && year >= 1500) {
-            query.addCriteria(Criteria.where("year").is(year));
-        }
-
-        query.with(pageable);
-
-        List<Album> albums = mongoTemplate.find(query, Album.class);
-        long count = mongoTemplate.count(query.skip(pageable.getOffset()).limit(pageable.getPageSize()), Album.class);
-
-        List<AlbumDTO> albumDTOs = albums.stream()
-                .map(album -> albumMapper.convertToDTO(album, with))
-                .collect(Collectors.toList());
-
-        return new PageImpl<>(albumDTOs, pageable, count);
     }
 
     @Override

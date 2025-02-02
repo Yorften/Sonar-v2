@@ -1,7 +1,11 @@
 import { Component, HostListener } from '@angular/core';
 import { ScreenService } from '../../services/screen.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { selectAll } from '../../../features/album/state/album.reducer';
+import { Album } from '../../../shared/models/album.model';
+import { AlbumActions } from '../../../features/album/state/album.actions';
 
 @Component({
   selector: 'app-album-menu',
@@ -11,9 +15,10 @@ import { Router } from '@angular/router';
 export class AlbumMenuComponent {
   isOpen: boolean = false;
   router: Router = new Router();
+  albums$: Observable<Album[]> = this.store.select(selectAll);
   private subscription: Subscription = new Subscription();
 
-  constructor(private screenService: ScreenService) { }
+  constructor(private screenService: ScreenService, private store: Store) { }
 
   openMenu() {
     this.isOpen = !this.isOpen;
@@ -25,6 +30,9 @@ export class AlbumMenuComponent {
       this.isOpen = isMedium;
     });
     this.isOpen = false;
+
+    this.store.dispatch(AlbumActions.loadAlbums());
+
   }
 
   ngOnDestroy() {

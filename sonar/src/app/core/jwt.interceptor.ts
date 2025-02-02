@@ -8,14 +8,11 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   const store = inject(Store);
   return store.select(selectJwt).pipe(
     take(1),
-    switchMap(token => {
-      
-      console.log("token: " + token);
-      
+    switchMap(token => {      
       const newHeaders = token
         ? req.headers
           .set('Authorization', `Bearer ${token}`)
-          .set('Content-Type', 'application/json')
+          // .set('Content-Type', 'application/json')
           .set('Accept', 'application/json')
         : req.headers
           .set('Content-Type', 'application/json')

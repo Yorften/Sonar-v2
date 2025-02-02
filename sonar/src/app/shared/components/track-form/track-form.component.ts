@@ -7,6 +7,8 @@ import { Store } from '@ngrx/store';
 import { selectEditedTrack } from '../../../features/track/state/track.reducer';
 import { TrackActions } from '../../../features/track/state/track.actions';
 import { Update } from '@ngrx/entity';
+import { Album } from '../../models/album.model';
+import { selectAll } from '../../../features/album/state/album.reducer';
 
 
 @Component({
@@ -16,6 +18,7 @@ import { Update } from '@ngrx/entity';
 export class TrackFormComponent {
 
   track$: Observable<Track | null> = this.store.select(selectEditedTrack);
+  albums$: Observable<Album[]> = this.store.select(selectAll);
   editedTrack: Track | null = null;
   trackForm: FormGroup;
   categories: string[] = Object.values(MusicCategory);
@@ -30,9 +33,8 @@ export class TrackFormComponent {
     private fb: FormBuilder,
   ) {
     this.trackForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
-      author: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      category: ['', [Validators.required, this.categoryValidator.bind(this)]],
+      title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
+      album: ['', [Validators.required]],
       file: ['', this.fileValidator.bind(this)],
       cover: ['', this.coverValidator.bind(this)]
     });
@@ -56,53 +58,53 @@ export class TrackFormComponent {
     if (this.editedTrack) {
       this.trackForm.patchValue({
         id: this.editedTrack.id,
-        name: this.editedTrack.name,
-        // author: this.editedTrack.author,
-        // category: this.editedTrack.category,
+        title: this.editedTrack.title,
+        album: this.editedTrack.album.id,
       })
     }
   }
 
   async onSubmit() {
     if (this.trackForm.invalid) return;
-    const trackData = this.trackForm.value;
+    const formValues = this.trackForm.value;
+    let duration: number = 0
+    if (this.trackFile != null) {
+      duration = await this.getTrackDuration();
+    }
+
+    const musicDTO = this.editedTrack
+      ? {
+        id: this.editedTrack.id,
+        title: formValues.title,
+        duration: duration == 0 ? null : duration,
+        album: { id: formValues.album }
+      }
+      : {
+        title: formValues.title,
+        duration: duration,
+        album: { id: formValues.album }
+      };
+
+
+    const formData = new FormData();
+    formData.append('music', new Blob([JSON.stringify(musicDTO)], { type: 'application/json' }));
+    if (this.trackFile) {
+      formData.append('file', this.trackFile, this.trackFile.name);
+    }
+    if (this.coverFile) {
+      formData.append('cover', this.coverFile, this.coverFile.name);
+    }
 
     if (this.editedTrack) {
-      // Edit Track
-      const trackUpdate: Update<Track> = {
-        id: this.editedTrack.id,
-        changes: {
-          ...this.editedTrack,
-          ...trackData
-        }
-      };
-      console.log(trackUpdate);
-      this.store.dispatch(TrackActions.updateTrack({ track: trackUpdate }))
-
+      // Update existing track
+      this.store.dispatch(TrackActions.updateTrack({ formData, id: this.editedTrack.id }));
     } else {
-      // Create Track
-
-      // Get the track duration
-      const duration = await this.getTrackDuration();
-
-      const track: Track = {
-        ...trackData,
-        id: `tack-${Date.now()}-${Math.random().toString(36)}`,
-        duration: duration,
-        creationDate: new Date(),
-      }
-
-      const uploadProps = {
-        trackFile: this.trackFile!,
-        coverFile: this.coverFile,
-        trackId: track.id
-      }
-
-      this.store.dispatch(TrackActions.uploadTrackFiles(uploadProps))
-      this.store.dispatch(TrackActions.addTrack({ track: track }))
+      // Create new track
+      this.store.dispatch(TrackActions.addTrack({ formData }));
     }
 
     this.closeForm();
+
   }
 
   getTrackDuration(): Promise<number> {

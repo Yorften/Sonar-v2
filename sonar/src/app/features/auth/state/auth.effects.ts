@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, concatMap, mergeMap, tap } from 'rxjs/operators';
-import { Observable, EMPTY, of } from 'rxjs';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { AuthActions } from './auth.actions';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { Router } from '@angular/router';
@@ -42,11 +42,16 @@ export class AuthEffects {
       mergeMap(() =>
         this.authService.userInfo().pipe(
           map(response => {
-            console.log("user: " + response);
             localStorage.setItem("user", JSON.stringify(response))
             return AuthActions.loadUserSuccess({ user: response })
           }),
-          catchError(() => of(AuthActions.loadUserFailure({ error: 'error' })))
+          catchError((response) => {
+            if (response.error.message === "Invalid JWT token") {
+              localStorage.removeItem("accessToken");
+              localStorage.removeItem("user");
+            }
+            return of(AuthActions.loadUserFailure({ error: 'error' }))
+          })
         )
       )
     )

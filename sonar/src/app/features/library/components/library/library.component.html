@@ -1,8 +1,8 @@
 <div class="flex flex-col h-[78vh] gap-4 px-1">
-    <div class="h-[14vh] pt-[2vh] px-[4%]">
+    <div class="h-[14vh] pt-[4vh] px-[4%]">
         <div class="flex items-center justify-between w-full">
             <p class="text-5xl font-medium">Music</p>
-            <app-button-primary (click)="isOpen = !isOpen" />
+            <app-button-primary *ngIf="isAdmin$" (click)="isOpen = !isOpen" content="Add track" />
         </div>
     </div>
     <div *ngIf="status$ | async as status" class="flex-1 min-h-0 overflow-y-auto md:px-[4%]">
@@ -44,18 +44,15 @@
                         </svg>
                     </div>
                     <div class="flex items-center w-[30%]">
-                        <p class="text-ellipsis overflow-hidden whitespace-nowrap"> {{ track.name }}</p>
+                        <p class="text-ellipsis overflow-hidden whitespace-nowrap"> {{ track.id }}</p>
                     </div>
-                    <!-- <div class="flex items-center justify-center w-[19%] md:w-[15%]">
-                        <p class="text-ellipsis overflow-hidden whitespace-nowrap">{{ track.author }}</p>
+                    <div class="flex items-center w-[30%]">
+                        <p class="text-ellipsis overflow-hidden whitespace-nowrap"> {{ track.title }}</p>
                     </div>
-                    <div class="flex items-center justify-center w-[19%] md:w-[15%]">
-                        <p class="text-ellipsis overflow-hidden whitespace-nowrap">{{ track.category }}</p>
+                    <div class="flex items-center justify-center w-[18%] md:w-[19%]">
+                        <p class="text-ellipsis overflow-hidden whitespace-nowrap">{{ track.album.title }}</p>
                     </div>
-                    <div class="flex items-center justify-center w-0 md:w-[15%]">
-                        <p class="text-ellipsis overflow-hidden whitespace-nowrap">{{ track.creationDate | date:'dd/MM/yyyy' }}</p>
-                    </div> -->
-                    <div class="flex items-center justify-center md:justify-end w-[19%] md:w-[15%]">
+                    <div class="flex items-center justify-center md:justify-end w-[18%] md:w-[19%]">
                         <p class="text-ellipsis overflow-hidden whitespace-nowrap">{{ track.duration | timeFormat }}</p>
                     </div>
                     <div class="flex items-center justify-end w-[6%] md:w-[3%]">
