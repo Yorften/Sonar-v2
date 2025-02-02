@@ -9,7 +9,7 @@ export interface AuthState {
   user: User | null;
   jwt: string | null;
   isAuthenticated: boolean;
-  error: string | null;
+  error: 'error' | 'success' | null;
 }
 
 function getInitialUser(): User | null {
@@ -41,16 +41,29 @@ export const reducer = createReducer(
     ...state,
     error: null
   })),
-  on(AuthActions.loginSuccess, (state, { accessToken }) => ({
+  on(AuthActions.loginSuccess, (state, { accessToken, user }) => ({
     ...state,
     jwt: accessToken,
     isAuthenticated: true,
+    user: user,
     error: null
   })),
   on(AuthActions.loginFailure, (state, { error }) => ({
     ...state,
     jwt: null,
     isAuthenticated: false,
+    error: error
+  })),
+  on(AuthActions.register, (state) => ({
+    ...state,
+    error: null
+  })),
+  on(AuthActions.registerSuccess, (state, { error }) => ({
+    ...state,
+    error: error
+  })),
+  on(AuthActions.registerFailure, (state, { error }) => ({
+    ...state,
     error: error
   })),
   on(AuthActions.logoutSuccess, (state) => ({

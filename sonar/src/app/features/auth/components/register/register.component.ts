@@ -43,8 +43,6 @@ export class RegisterComponent {
       roles: ['ROLE_USER']
     };
 
-    console.log(newUser);
-
     // this.store.dispatch(AuthActions.register({ username, email, password, repeatPassword }));
   }
 

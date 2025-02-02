@@ -9,13 +9,17 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   return store.select(selectJwt).pipe(
     first(),
     switchMap(token => {
-      if (token) {
-        const clonedReq = req.clone({
-          headers: req.headers.set('Authorization', `Bearer ${token}`)
-        });
-        return next(clonedReq);
-      }
-      return next(req);
+      const newHeaders = token
+        ? req.headers
+          .set('Authorization', `Bearer ${token}`)
+          .set('Content-Type', 'application/json')
+          .set('Accept', 'application/json')
+        : req.headers
+          .set('Content-Type', 'application/json')
+          .set('Accept', 'application/json');
+
+      const clonedReq = req.clone({ headers: newHeaders });
+      return next(clonedReq);
     })
   );
 
