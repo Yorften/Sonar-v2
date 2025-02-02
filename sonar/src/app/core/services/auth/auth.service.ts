@@ -42,15 +42,6 @@ export class AuthService {
 
   userInfo(): Observable<any> {
     const url = `${this.apiUrl}/users/@me`;
-    return this.http.post(url, {});
-  }
-
-  /**
-   * Sends a logout request to the backend.
-   * @returns An observable of the logout response.
-   */
-  logout(): Observable<any> {
-    const url = `${this.apiUrl}/auth/logout`;
-    return this.http.post(url, {});
+    return this.http.get(url);
   }
 }

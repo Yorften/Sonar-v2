@@ -41,11 +41,10 @@ export const reducer = createReducer(
     ...state,
     error: null
   })),
-  on(AuthActions.loginSuccess, (state, { accessToken, user }) => ({
+  on(AuthActions.loginSuccess, (state, { accessToken }) => ({
     ...state,
     jwt: accessToken,
     isAuthenticated: true,
-    user: user,
     error: null
   })),
   on(AuthActions.loginFailure, (state, { error }) => ({
@@ -54,6 +53,23 @@ export const reducer = createReducer(
     isAuthenticated: false,
     error: error
   })),
+
+
+  on(AuthActions.loadUser, (state) => ({
+    ...state,
+    error: null
+  })),
+  on(AuthActions.loadUserSuccess, (state, { user }) => ({
+    ...state,
+    user: user,
+    error: null
+  })),
+  on(AuthActions.loadUserFailure, (state, { error }) => ({
+    ...state,
+    error: error
+  })),
+
+
   on(AuthActions.register, (state) => ({
     ...state,
     error: null
@@ -65,6 +81,11 @@ export const reducer = createReducer(
   on(AuthActions.registerFailure, (state, { error }) => ({
     ...state,
     error: error
+  })),
+
+  on(AuthActions.logout, (state) => ({
+    ...state,
+    error: null
   })),
   on(AuthActions.logoutSuccess, (state) => ({
     ...state,
