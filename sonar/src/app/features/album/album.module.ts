@@ -7,11 +7,7 @@ import { AlbumEffects } from './state/album.effects';
 import { AlbumComponent } from './components/album/album.component';
 import { AlbumRoutingModule } from './album-routing.module';
 import { AlbumDetailComponent } from './components/album-detail/album-detail.component';
-import { ButtonPrimaryComponent } from '../../shared/components/button-primary/button-primary.component';
-import { AlbumFormComponent } from '../../shared/components/album-form/album-form.component';
 import { SharedModule } from '../../shared/shared.module';
-
-
 
 @NgModule({
   declarations: [

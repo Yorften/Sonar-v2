@@ -34,6 +34,7 @@ export class LibraryComponent {
   }
 
   ngOnInit() {
+    this.store.dispatch(TrackActions.loadTracks());
   }
 
   toggleMenu(trackId: string): void {
