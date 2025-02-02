@@ -57,6 +57,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO getByUserName(String userName, String... with) {
+        User user = userRepository.findByUsername(userName)
+                .orElseThrow(() -> new ResourceNotFoundException("user not found"));
+        return userMapper.convertToDTO(user, with);
+    }
+
+    @Override
     public Page<UserDTO> getAllUsers(Pageable pageable, String... with) {
         userMapper.verifyIncludes(with);
         Page<User> userPage = userRepository.findAll(pageable);

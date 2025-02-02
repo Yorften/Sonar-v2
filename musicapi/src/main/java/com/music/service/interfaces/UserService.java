@@ -18,6 +18,8 @@ public interface UserService {
 
    public UserDTO getByUserName(String userName);
 
+   public UserDTO getByUserName(String userName, String... with);
+
    Page<UserDTO> getAllUsers(Pageable pageable);
 
    Page<UserDTO> getAllUsers(Pageable pageable, String... with);

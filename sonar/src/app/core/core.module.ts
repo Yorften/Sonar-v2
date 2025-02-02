@@ -35,7 +35,8 @@ import { UserMenuComponent } from './shared/user-menu/user-menu.component';
   ],
   exports: [
     SidebarComponent,
-    PlayerComponent
+    PlayerComponent,
+    UserMenuComponent,
   ],
   providers: [
 

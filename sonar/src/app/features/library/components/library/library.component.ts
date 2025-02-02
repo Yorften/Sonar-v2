@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Track } from '../../../../shared/models/track.model';
 import { TrackActions } from '../../../track/state/track.actions';
-import { Observable } from 'rxjs';
-import { selectActiveTrack, selectAll, selectMessage, selectStatus, selectTrackAudio } from '../../../track/state/track.reducer';
+import { map, Observable } from 'rxjs';
+import { selectActiveTrack, selectAll, selectMessage, selectStatus } from '../../../track/state/track.reducer';
+import { selectUser } from '../../../auth/state/auth.reducer';
+import { User } from '../../../../shared/models/user.model';
 
 @Component({
   selector: 'app-library',
-  templateUrl: './library.component.html',
-  styleUrl: './library.component.scss'
+  templateUrl: './library.component.html'
 })
 export class LibraryComponent {
 
@@ -17,6 +18,10 @@ export class LibraryComponent {
   status$: Observable<string> = this.store.select(selectStatus);
   error$: Observable<string | null> = this.store.select(selectMessage);
   activeTrack$: Observable<Track | null> = this.store.select(selectActiveTrack);
+  user$: Observable<User | null> = this.store.select(selectUser);
+  isAdmin$: Observable<boolean> = this.user$.pipe(
+    map(user => user?.roles?.some(r => r.name === 'ROLE_ADMIN') ?? false)
+  );
   openTrackId: string | null = null;
 
 

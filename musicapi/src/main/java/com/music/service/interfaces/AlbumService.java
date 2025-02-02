@@ -1,7 +1,6 @@
 package com.music.service.interfaces;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
 
 import com.music.dto.album.AlbumDTO;
 import com.music.dto.album.UpdateAlbumDTO;
@@ -16,9 +15,7 @@ public interface AlbumService {
 
    AlbumDTO getAlbumById(String id, String... with);
 
-   Page<AlbumDTO> getAllAlbums(Pageable pageable, String title, String artist, Integer year);
-
-   Page<AlbumDTO> getAllAlbums(Pageable pageable, String title, String artist, Integer year, String... with);
+   List<AlbumDTO> getAllAlbums(String title, String artist, Integer year);
 
    AlbumDTO addAlbum(AlbumDTO Album);
 

@@ -2,10 +2,6 @@ package com.music.controller;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,13 +28,11 @@ public class AlbumController {
     private final AlbumService albumService;
 
     @GetMapping()
-    public Page<AlbumDTO> getAllAlbums(@RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "5") int size,
+    public List<AlbumDTO> getAllAlbums(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String artist,
             @RequestParam(required = false) Integer year) {
-        Pageable pageable = PageRequest.of((page - 1), size, Sort.by("ID").ascending());
-        return albumService.getAllAlbums(pageable, title, artist, year, "musics");
+        return albumService.getAllAlbums(title, artist, year);
     }
 
     @GetMapping("/{id}/musics")
@@ -50,7 +44,7 @@ public class AlbumController {
     @GetMapping("/{id}")
     public AlbumDTO getAlbum(
             @PathVariable("id") String albumId) {
-        return albumService.getAlbumById(albumId, "musics");
+        return albumService.getAlbumById(albumId);
     }
 
 }

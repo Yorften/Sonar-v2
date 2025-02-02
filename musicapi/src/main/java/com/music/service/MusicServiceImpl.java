@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.bson.types.ObjectId;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -65,7 +62,7 @@ public class MusicServiceImpl implements MusicService {
     }
 
     @Override
-    public Page<MusicDTO> getAllMusics(Pageable pageable, String title, String albumId) {
+    public List<MusicDTO> getAllMusics(String title, String albumId) {
         Query query = new Query();
 
         if (title != null && !title.isEmpty()) {
@@ -75,20 +72,15 @@ public class MusicServiceImpl implements MusicService {
             query.addCriteria(Criteria.where("album.id").is(albumId));
         }
 
-        query.with(pageable);
-
         List<Music> musics = mongoTemplate.find(query, Music.class);
-        long count = mongoTemplate.count(query.skip(pageable.getOffset()).limit(pageable.getPageSize()), Music.class);
 
-        List<MusicDTO> musicDTOs = musics.stream()
+        return musics.stream()
                 .map(album -> musicMapper.convertToDTO(album))
                 .collect(Collectors.toList());
-
-        return new PageImpl<>(musicDTOs, pageable, count);
     }
 
     @Override
-    public Page<MusicDTO> getAllMusics(Pageable pageable, String title, String albumId, String... with) {
+    public List<MusicDTO> getAllMusics(String title, String albumId, String... with) {
 
         musicMapper.verifyIncludes(with);
 
@@ -101,16 +93,11 @@ public class MusicServiceImpl implements MusicService {
             query.addCriteria(Criteria.where("album.id").is(albumId));
         }
 
-        query.with(pageable);
-
         List<Music> musics = mongoTemplate.find(query, Music.class);
-        long count = mongoTemplate.count(query.skip(pageable.getOffset()).limit(pageable.getPageSize()), Music.class);
 
-        List<MusicDTO> musicDTOs = musics.stream()
+        return musics.stream()
                 .map(album -> musicMapper.convertToDTO(album, with))
                 .collect(Collectors.toList());
-
-        return new PageImpl<>(musicDTOs, pageable, count);
     }
 
     @Override
@@ -133,11 +120,12 @@ public class MusicServiceImpl implements MusicService {
 
         ObjectId fileId = gridFsTemplate.store(fileStream, fileName);
         ObjectId coverId = coverStream != null ? gridFsTemplate.store(coverStream, coverName) : null;
-        log.info("file id: " + fileId);
         music.setAudioFileId(fileId.toString());
-        music.setCoverFileId(coverId.toString());
+        if (coverId != null) {
+            music.setCoverFileId(coverId.toString());
+        }
 
-        return musicMapper.convertToDTO(musicRepository.save(music));
+        return musicMapper.convertToDTO(musicRepository.save(music), "album");
     }
 
     @Override
@@ -175,7 +163,7 @@ public class MusicServiceImpl implements MusicService {
 
             gridFsTemplate.delete(new Query(Criteria.where("_id").is(musicDB.getCoverFileId())));
 
-            musicDB.setAudioFileId(coverId.toString());
+            musicDB.setCoverFileId(coverId.toString());
         }
 
         return musicMapper.convertToDTO(musicRepository.save(musicDB));

@@ -1,1 +1,68 @@
-<p>album works!</p>
+<div class="flex flex-col h-[78vh] gap-4 px-1">
+    <div class="h-[14vh] pt-[4vh] px-[4%]">
+        <div class="flex items-center justify-between w-full">
+            <p class="text-5xl font-medium">Albums</p>
+            <app-button-primary *ngIf="isAdmin$" (click)="isOpen = !isOpen" content="Add album" />
+        </div>
+    </div>
+    <div *ngIf="status$ | async as status" class="flex-1 min-h-0 overflow-y-auto md:px-[4%]">
+        <div *ngIf="status === 'loading'" class="loading-indicator">
+            <div
+                class="group flex items-center justify-center gap-1 md:gap-2 border-b-0 shadow-sm border bg-white border-b-gray-400 rounded-lg hover:bg-gray-secondary h-[44px] w-full pl-2 md:px-4 animate-pulse">
+                <p>Loading</p>
+            </div>
+        </div>
+        <div *ngIf="status === 'success'" class="loading-indicator">
+            <div *ngIf="(albums$ | async)?.length! > 0" class="flex flex-col gap-1 items-center">
+                <div (click)="editAlbum(album)" *ngFor="let album of albums$ | async ; let  i = index" [ngClass]="{
+                    'border-b-0 shadow-sm border bg-white border-b-gray-400 ': i % 2 == 0,
+                    'bg-gray-primary': i % 2 != 0,}"
+                    class="cursor-pointer group flex items-center gap-1 md:gap-2 rounded-lg hover:bg-gray-secondary h-[44px] w-full text-sm pl-2 md:px-4 text-gray-800 stroke-gray-800">
+                    <a [routerLink]="['/album', album.id]" class="md:group-hover:block md:hidden flex items-center z-40 justify-end w-[6%] md:w-[3%]">
+                        <button class="hover:bg-gray-200 rounded-md p-1">
+                            <svg class="stroke-red-custom w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                                <path
+                                    d="M16.6582 9.28638C18.098 10.1862 18.8178 10.6361 19.0647 11.2122C19.2803 11.7152 19.2803 12.2847 19.0647 12.7878C18.8178 13.3638 18.098 13.8137 16.6582 14.7136L9.896 18.94C8.29805 19.9387 7.49907 20.4381 6.83973 20.385C6.26501 20.3388 5.73818 20.0469 5.3944 19.584C5 19.053 5 18.1108 5 16.2264V7.77357C5 5.88919 5 4.94701 5.3944 4.41598C5.73818 3.9531 6.26501 3.66111 6.83973 3.6149C7.49907 3.5619 8.29805 4.06126 9.896 5.05998L16.6582 9.28638Z"
+                                    stroke="current" stroke-width="2" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </a>
+                    <div class="md:group-hover:hidden md:block flex items-center justify-end w-[6%] md:w-[3%]">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="800px" height="800px" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 19C9 20.6569 7.65685 22 6 22C4.34315 22 3 20.6569 3 19C3 17.3431 4.34315 16 6 16C7.65685 16 9 17.3431 9 19Z"
+                                stroke="current" stroke-width="1.5" />
+                            <path
+                                d="M21 17C21 18.6569 19.6569 20 18 20C16.3431 20 15 18.6569 15 17C15 15.3431 16.3431 14 18 14C19.6569 14 21 15.3431 21 17Z"
+                                stroke="current" stroke-width="1.5" />
+                            <path d="M9 19V8" stroke="current" stroke-width="1.5" />
+                            <path d="M21 17V6" stroke="current" stroke-width="1.5" />
+                            <path
+                                d="M15.7351 3.75466L11.7351 5.08799C10.4151 5.52801 9.75503 5.74801 9.37752 6.27179C9 6.79556 9 7.49128 9 8.88273V11.9997L21 7.99969V7.54939C21 5.01693 21 3.7507 20.1694 3.15206C19.3388 2.55341 18.1376 2.95383 15.7351 3.75466Z"
+                                stroke="current" stroke-width="1.5" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <div class="flex items-center w-[40%]">
+                        <p class="text-ellipsis overflow-hidden whitespace-nowrap"> {{ album.id }}</p>
+                    </div>
+                    <div class="flex items-center justify-center w-[20%] md:w-[20%]">
+                        <p class="text-ellipsis overflow-hidden whitespace-nowrap">{{ album.title }}</p>
+                    </div>
+                    <div class="flex items-center justify-center w-[20%] md:w-[20%]">
+                        <p class="text-ellipsis overflow-hidden whitespace-nowrap">{{ album.artist }}</p>
+                    </div>
+                    <div class="flex items-center justify-center w-[20%] md:w-[20%]">
+                        <p class="text-ellipsis overflow-hidden whitespace-nowrap">{{ album.year }}</p>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!((albums$ | async)?.length! > 0)" class="flex flex-col gap-1 items-center">
+                <div
+                    class="group flex items-center justify-center gap-1 md:gap-2 border-b-0 shadow-sm border bg-white border-b-gray-400 rounded-lg hover:bg-gray-secondary h-[44px] w-full pl-2 md:px-4">
+                    <p>no albums found</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<app-album-form *ngIf="isOpen" (close)="closeAlbumForm()" />

@@ -10,7 +10,6 @@ import { User } from '../../../../shared/models/user.model';
 })
 export class RegisterComponent {
   registerForm: FormGroup;
-  @Output() close = new EventEmitter<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -40,12 +39,10 @@ export class RegisterComponent {
       email,
       password,
       repeatPassword,
-      roles: ['ROLE_USER']
+      roles: []
     };
 
-    console.log(newUser);
-
-    // this.store.dispatch(AuthActions.register({ username, email, password, repeatPassword }));
+    this.store.dispatch(AuthActions.register({ user: newUser }));
   }
 
   isFieldInvalid(fieldName: string): boolean {

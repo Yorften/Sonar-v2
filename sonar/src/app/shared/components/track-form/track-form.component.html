@@ -10,54 +10,36 @@
             <div class="flex flex-col items-center gap-4 w-full">
                 <div class="flex flex-col mb-3 w-full">
                     <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
-                        <p class="text-xs">Track name</p>
-                        <input id="name" type="text" formControlName="name" [class.is-invalid]="isFieldInvalid('name')"
-                            class="placeholder:font-light placeholder:text-xs focus:outline-none" placeholder="Track name" autocomplete="off">
+                        <p class="text-xs">Track title</p>
+                        <input id="title" type="text" formControlName="title" [class.is-invalid]="isFieldInvalid('title')"
+                            class="placeholder:font-light placeholder:text-xs focus:outline-none" placeholder="Track title" autocomplete="off">
                     </div>
-                    <div *ngIf="isFieldInvalid('name')" class="text-red-600 text-xs pl-3">
-                        <span *ngIf="trackForm.get('name')?.errors?.['required']">
-                            Track name is required
+                    <div *ngIf="isFieldInvalid('title')" class="text-red-600 text-xs pl-3">
+                        <span *ngIf="trackForm.get('title')?.errors?.['required']">
+                            Track title is required
                         </span>
-                        <span *ngIf="trackForm.get('name')?.errors?.['minlength']">
-                            Track name should be atleast 3 characters
+                        <span *ngIf="trackForm.get('title')?.errors?.['minlength']">
+                            Track title should be atleast 3 characters
                         </span>
-                        <span *ngIf="trackForm.get('name')?.errors?.['maxlength']">
-                            Track name should not pass 50 characters
-                        </span>
-                    </div>
-                </div>
-                <div class="flex flex-col mb-3 w-full">
-                    <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
-                        <p class="text-xs">Track author</p>
-                        <input id="author" type="text" formControlName="author" [class.is-invalid]="isFieldInvalid('author')"
-                            class="placeholder:font-light placeholder:text-xs focus:outline-none" placeholder="Track author" autocomplete="off">
-                    </div>
-                    <div *ngIf="isFieldInvalid('author')" class="text-red-600 text-xs pl-3">
-                        <span *ngIf="trackForm.get('author')?.errors?.['required']">
-                            Track author is required
-                        </span>
-                        <span *ngIf="trackForm.get('author')?.errors?.['minlength']">
-                            Track author should be atleast 3 characters
-                        </span>
-                        <span *ngIf="trackForm.get('author')?.errors?.['maxlength']">
-                            Track author should not pass 50 characters
+                        <span *ngIf="trackForm.get('title')?.errors?.['maxlength']">
+                            Track title should not pass 50 characters
                         </span>
                     </div>
                 </div>
 
                 <div class="flex flex-col mb-3 w-full">
                     <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
-                        <p class="text-xs">Category</p>
-                        <select id="category" formControlName="category" [class.is-invalid]="isFieldInvalid('category')" class="appearance-none p-1">
-                            <option value="" selected disabled hidden>Select a category</option>
-                            <option *ngFor="let category of categories" [value]="category">
-                                {{ category }}
+                        <p class="text-xs">Album</p>
+                        <select id="album" formControlName="album" [class.is-invalid]="isFieldInvalid('album')" class="appearance-none p-1">
+                            <option value="" selected disabled hidden>Select album</option>
+                            <option *ngFor="let album of albums$ | async" [value]="album.id">
+                                {{ album.title }}
                             </option>
                         </select>
                     </div>
-                    <div *ngIf="isFieldInvalid('category')" class="text-red-600 text-xs pl-3">
-                        <span *ngIf="trackForm.get('category')?.errors?.['required']">
-                            Category is required
+                    <div *ngIf="isFieldInvalid('album')" class="text-red-600 text-xs pl-3">
+                        <span *ngIf="trackForm.get('album')?.errors?.['required']">
+                            Album is required
                         </span>
                     </div>
                 </div>

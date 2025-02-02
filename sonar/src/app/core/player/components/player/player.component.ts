@@ -4,24 +4,22 @@ import { combineLatest, map, Observable, take } from 'rxjs';
 import { Track } from '../../../../shared/models/track.model';
 import { selectActiveTrack, selectAll, selectError, selectTrackAudio, selectTrackAudioStatus, selectTrackCover, selectTrackCoverStatus } from '../../../../features/track/state/track.reducer';
 import { isPlatformBrowser } from '@angular/common';
-import { StoredFile } from '../../../services/file/file.service';
 import { TrackActions } from '../../../../features/track/state/track.actions';
 
 @Component({
   selector: 'app-player',
-  templateUrl: './player.component.html',
-  styleUrl: './player.component.scss'
+  templateUrl: './player.component.html'
 })
 export class PlayerComponent {
 
   currentTime: number = 0;
   private _volume: number = 100;
   isPlaying: boolean = false;
+
   tracks$: Observable<Track[]> = this.store.select(selectAll);
   activeTrack$: Observable<Track | null> = this.store.select(selectActiveTrack)
-  trackAudio$: Observable<StoredFile | null> = this.store.select(selectTrackAudio)
-  trackCover$: Observable<StoredFile | null> = this.store.select(selectTrackCover)
-
+  trackAudio$: Observable<Blob | null> = this.store.select(selectTrackAudio)
+  trackCover$: Observable<Blob | null> = this.store.select(selectTrackCover)
   trackStatus$: Observable<string> = this.store.select(selectTrackAudioStatus)
   coverStatus$: Observable<string> = this.store.select(selectTrackCoverStatus)
   error$: Observable<string | null> = this.store.select(selectError)
@@ -86,17 +84,17 @@ export class PlayerComponent {
     });
   }
 
-  onCoverFileChange(coverFile: StoredFile) {
+  onCoverFileChange(coverFile: Blob) {
     if (this.url) {
       URL.revokeObjectURL(this.url);
     }
-    this.url = URL.createObjectURL(coverFile.file);
+    this.url = URL.createObjectURL(coverFile);
     this.objectUrls.push(this.url);
 
   }
 
-  onAudioFileChange(audioFile: StoredFile) {
-    const url = URL.createObjectURL(audioFile.file);
+  onAudioFileChange(audioFile: Blob) {
+    const url = URL.createObjectURL(audioFile);
     this.objectUrls.push(url);
     this.audio.src = url;
     this.isPlaying = true;
@@ -119,8 +117,8 @@ export class PlayerComponent {
   onActiveTrackChange(track: Track) {
     this.objectUrls.forEach((url) => URL.revokeObjectURL(url))
     this.url = null;
-    this.store.dispatch(TrackActions.loadTrackAudio({ trackId: track.id }))
-    this.store.dispatch(TrackActions.loadTrackCover({ trackId: track.id }))
+    this.store.dispatch(TrackActions.loadTrackAudio({ audioFileId: track.id }))
+    this.store.dispatch(TrackActions.loadTrackCover({ coverFileId: track.id }))
   }
 
   togglePlayer() {

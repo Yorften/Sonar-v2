@@ -1,0 +1,77 @@
+<div class="fixed w-full h-full top-0 left-0 items-center flex justify-center z-50 album-popup-background">
+    <div class="bg-white w-11/12 md:w-7/12 h-fit shadow-xl flex flex-col items-center overflow-hidden rounded-md md:h-fit album-form-container">
+        <div class="w-full h-6">
+            <div class="flex justify-end h-full rounded-tr-md rounded-tl-md">
+                <p (click)="closeForm()" class="text-xl text-gray-700 font-bold cursor-pointer text-center mr-1">&times;</p>
+            </div>
+        </div>
+        <form [formGroup]="albumForm" (ngSubmit)="onSubmit()"
+            class="flex flex-col items-center justify-between gap-5 px-[5%] w-[96%] sm:w-[98%] md:w-[97%] lg:w-[98.5%] mx-auto overflow-x-hidden overflow-y-auto mt-2 py-10 h-[75vh]">
+            <div class="flex flex-col items-center justify-between gap-4 w-full h-full">
+                <div class="flex flex-col items-center gap-4 w-full">
+                    <div class="flex flex-col mb-3 w-full">
+                        <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+                            <p class="text-xs">Album Title</p>
+                            <input id="title" type="text" formControlName="title" [class.is-invalid]="isFieldInvalid('title')"
+                                class="placeholder:font-light placeholder:text-xs focus:outline-none" placeholder="Album Title" autocomplete="off">
+                        </div>
+                        <div *ngIf="isFieldInvalid('title')" class="text-red-600 text-xs pl-3">
+                            <span *ngIf="albumForm.get('title')?.errors?.['required']">
+                                Album title is required
+                            </span>
+                            <span *ngIf="albumForm.get('title')?.errors?.['minlength']">
+                                Album title should be atleast 3 characters
+                            </span>
+                            <span *ngIf="albumForm.get('title')?.errors?.['maxlength']">
+                                Album title should not pass 50 characters
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col mb-3 w-full">
+                        <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+                            <p class="text-xs">Album Artist</p>
+                            <input id="artist" type="text" formControlName="artist" [class.is-invalid]="isFieldInvalid('artist')"
+                                class="placeholder:font-light placeholder:text-xs focus:outline-none" placeholder="Album Artist" autocomplete="off">
+                        </div>
+                        <div *ngIf="isFieldInvalid('artist')" class="text-red-600 text-xs pl-3">
+                            <span *ngIf="albumForm.get('artist')?.errors?.['required']">
+                                Album artist is required
+                            </span>
+                            <span *ngIf="albumForm.get('artist')?.errors?.['minlength']">
+                                Album artist should be atleast 3 characters
+                            </span>
+                            <span *ngIf="albumForm.get('artist')?.errors?.['maxlength']">
+                                Album artist should not pass 50 characters
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col mb-3 w-full">
+                        <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+                            <p class="text-xs">Album Year</p>
+                            <input id="year" type="number" formControlName="year" [class.is-invalid]="isFieldInvalid('year')"
+                                class="placeholder:font-light placeholder:text-xs focus:outline-none" placeholder="Album Artist" autocomplete="off">
+                        </div>
+                        <div *ngIf="isFieldInvalid('year')" class="text-red-600 text-xs pl-3">
+                            <span *ngIf="albumForm.get('year')?.errors?.['required']">
+                                Album year is required
+                            </span>
+                            <span *ngIf="albumForm.get('year')?.errors?.['minlength']">
+                                Album year should be atleast 3 characters
+                            </span>
+                            <span *ngIf="albumForm.get('year')?.errors?.['pattern']">
+                                Album year should be 4 digits (1000-9999)
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <button type="submit"
+                    class="w-full cursor-pointer rounded-md shadow-sm text-white font-medium bg-black py-3 px-2 transition-all duration-200 hover:bg-gray-950 hover:shadow-md">
+                    {{ (editedAlbum) ? 'Update' : 'Create' }} Album
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

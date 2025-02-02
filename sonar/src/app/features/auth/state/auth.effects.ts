@@ -1,25 +1,99 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, concatMap } from 'rxjs/operators';
-import { Observable, EMPTY, of } from 'rxjs';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { AuthActions } from './auth.actions';
+import { AuthService } from '../../../core/services/auth/auth.service';
+import { Router } from '@angular/router';
 
 
 @Injectable()
 export class AuthEffects {
 
-  // loadUsers$ = createEffect(() => {
-  //   return this.actions$.pipe(
+  login$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.login),
+      mergeMap(({ username, password }) =>
+        this.authService.login(username, password).pipe(
+          map(response => {
+            localStorage.setItem("accessToken", response.accessToken)
+            return AuthActions.loginSuccess({ accessToken: response.accessToken })
+          }),
+          catchError(() => of(AuthActions.loginFailure({ error: 'error' })))
+        )
+      )
+    )
+  );
 
-  //     ofType(AuthActions.login),
-  //     concatMap(() =>
-  //       EMPTY.pipe(
-  //         map(data => AuthActions.loginSuccess({ data })),
-  //         catchError(error => of(AuthActions.loginFailure({ error }))))
-  //     )
-  //   );
-  // });
+  redirectAfterLogin$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.loginSuccess),
+      tap(() => {
+        this.router.navigate(['/']);
+      })
+    ),
+    { dispatch: false }
+  );
 
 
-  constructor(private actions$: Actions) {}
+  loadUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.loadUser),
+      mergeMap(() =>
+        this.authService.userInfo().pipe(
+          map(response => {
+            localStorage.setItem("user", JSON.stringify(response))
+            return AuthActions.loadUserSuccess({ user: response })
+          }),
+          catchError((response) => {
+            if (response.error.message === "Invalid JWT token") {
+              localStorage.removeItem("accessToken");
+              localStorage.removeItem("user");
+            }
+            return of(AuthActions.loadUserFailure({ error: 'error' }))
+          })
+        )
+      )
+    )
+  );
+
+  register$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.register),
+      mergeMap(({ user }) =>
+        this.authService.register(user).pipe(
+          map(user => AuthActions.registerSuccess({ error: 'success' })),
+          catchError(() => of(AuthActions.registerFailure({ error: 'error' })))
+        )
+      )
+    )
+  );
+
+  // Effect to handle logout action.
+  logout$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.logout),
+      map(() => {
+        console.log("test");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("user");
+        return AuthActions.logoutSuccess()
+      }),
+      catchError(() => of(AuthActions.logoutFailure({ error: 'error' })))
+    )
+  );
+
+  redirectAfterLogout$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.logoutSuccess),
+      tap(() => {
+        this.router.navigate(['/auth/login']);
+      })
+    ),
+    { dispatch: false }
+  );
+
+
+
+  constructor(private actions$: Actions, private authService: AuthService, private router: Router) { }
 }

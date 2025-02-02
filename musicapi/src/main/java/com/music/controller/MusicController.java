@@ -5,10 +5,6 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,13 +30,10 @@ public class MusicController {
     private final MusicService musicService;
 
     @GetMapping()
-    public Page<MusicDTO> getAllMusics(
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "5") int size,
+    public List<MusicDTO> getAllMusics(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String albumId) {
-        Pageable pageable = PageRequest.of((page - 1), size, Sort.by("ID").ascending());
-        return musicService.getAllMusics(pageable, title, albumId, "album");
+        return musicService.getAllMusics(title, albumId, "album");
     }
 
     @GetMapping("/album/{id}")

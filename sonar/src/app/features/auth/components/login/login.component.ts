@@ -10,7 +10,6 @@ import { AuthActions } from '../../state/auth.actions';
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  @Output() close = new EventEmitter<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -25,6 +24,8 @@ export class LoginComponent {
   onSubmit(): void {
     if (this.loginForm.invalid) return;
     const loginData = this.loginForm.value;
+    console.log(loginData);
+    
     this.store.dispatch(AuthActions.login({
       username: loginData.username,
       password: loginData.password

@@ -1,1 +1,5 @@
-<p>user-menu works!</p>
+<div class="flex items-center gap-2 text-xl font-medium">
+    <p>{{ (user$ | async)?.username }}</p>
+    <p>|</p>
+    <p (click)="logout()" class="cursor-pointer">Logout</p>
+</div>
