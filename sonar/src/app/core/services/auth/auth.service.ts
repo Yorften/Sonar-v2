@@ -34,7 +34,7 @@ export class AuthService {
   register(user: User): Observable<any> {
     // Ensure that the roles array contains ROLE_USER.
     const role: Role = {
-      name: "ROLE_ADMIN"
+      name: "ROLE_USER"
     }
     const newUser: User = {
       ...user,

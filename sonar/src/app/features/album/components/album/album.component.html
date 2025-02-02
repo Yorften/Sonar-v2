@@ -2,7 +2,7 @@
     <div class="h-[14vh] pt-[4vh] px-[4%]">
         <div class="flex items-center justify-between w-full">
             <p class="text-5xl font-medium">Albums</p>
-            <app-button-primary *ngIf="isAdmin$" (click)="isOpen = !isOpen" content="Add album" />
+            <app-button-primary *ngIf="isAdmin$ |async" (click)="isOpen = !isOpen" content="Add album" />
         </div>
     </div>
     <div *ngIf="status$ | async as status" class="flex-1 min-h-0 overflow-y-auto md:px-[4%]">
