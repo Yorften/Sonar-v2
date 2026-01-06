@@ -2,6 +2,5 @@
 ./sonar/dist
 .git
 .gitignore
-./sonar/angular.json
 README.md
 Dockerfile

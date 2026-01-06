@@ -1,20 +1,38 @@
 services:
-  musicapi:
-    image: yorften/musicapi
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend.Dockerfile
+    container_name: musicapi-frontend
     ports:
-      - "8085:8085"  
+      - "80:80"
+    depends_on:
+      - musicapi
+    networks:
+      - musicapi-network
+    restart: on-failure
+
+  musicapi:
+    build:
+      context: ./musicapi
+      dockerfile: Dockerfile
+    container_name: musicapi-backend
+    ports:
+      - "8085:8085"
     environment:
-      SPRING_PROFILES_ACTIVE: prod 
-      SPRING_JWT_TOKEN: ${JWT_TOKEN}
-      SPRING_JWT_EXPIRATION: ${JWT_EXPIRATION}
-      SPRING_MONGODB_URI: ${MONGODB_URI}
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - SPRING_JWT_TOKEN=${SPRING_JWT_TOKEN}
+      - SPRING_JWT_EXPIRATION=${SPRING_JWT_EXPIRATION}
+      - SPRING_MONGODB_URI=${SPRING_MONGODB_URI}
     depends_on:
       - db
     networks:
       - musicapi-network
+    restart: on-failure
 
+  # --- MongoDB Database ---
   db:
-    image: mongodb:latest
+    image: mongo:latest
     container_name: mongodb-container
     ports:
       - "27017:27017"
@@ -23,10 +41,9 @@ services:
     networks:
       - musicapi-network
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-    command:
-      --bind_ip_all # Allows MongoDB to bind to all IPs inside the network
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+    command: --bind_ip_all
 
 volumes:
   mongo-data:
